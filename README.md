@@ -1,2 +1,2 @@
 # vulcademy
-A web application for smooth and efficient classrooms.
+Vulcademy is a tool created to make classroom learning run in an efficient and smooth way. With features such as polling, anonymous questions, and real time feedback, many current classroom issues can be easily dealt with. Students may ask questions, click buttons to alert the professor to speak up or slow down, record the lecture with professor permission, and rate the teaching at the end of the class.
