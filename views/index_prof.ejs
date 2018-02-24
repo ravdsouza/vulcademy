@@ -416,38 +416,21 @@
 									<h3><i class="fa fa-envelope-o"></i> Latest Comments/Questions</h3>
 									See questions that students have and what questions are popular
 								</div>
-									
 								<div class="card-body">
-									
 									<div class="widget-messages nicescroll" style="height: 400px;">
-													<a href="#">
-														<div class="message-item">
-															<div class="message-user-img"><img src="assets/images/avatars/avatar10.png" class="avatar-circle" alt=""></div>
-															<p class="message-item-user">Allyson Giannikouris</p>
-															<p class="message-item-msg">Will these slides be on Learn?</p>
-															<p class="message-item-date">14:25 PM</p>
-														</div>
-													</a>
-													<a href="#">
-														<div class="message-item">
-															<div class="message-user-img"><img src="assets/images/avatars/avatar5.png" class="avatar-circle" alt=""></div>
-															<p class="message-item-user">Feridun Hamdullahpur</p>
-															<p class="message-item-msg">Will this lecture be on the midterm?</p>
-															<p class="message-item-date">13:20 PM</p>
-														</div>
-													</a>
-													<a href="#">
-														<div class="message-item">
-															<div class="message-user-img"><img src="assets/images/avatars/avatar2.png" class="avatar-circle" alt=""></div>
-															<p class="message-item-user">Carla Daniels</p>
-															<p class="message-item-msg">Can you explain how a BST works?</p>
-															<p class="message-item-date">11:20 PM</p>
-														</div>
-													</a>
+										<% messages.forEach(function(message) { %>
+											<a href="#">
+												<div class="message-item">
+													<div class="message-user-img"><img src="assets/images/avatars/avatar<%= message.avatar %>.png" class="avatar-circle" alt=""></div>
+													<p class="message-item-user"><%= message.name %></p>
+													<p class="message-item-msg"><%= message.text %></p>
+													<p class="message-item-date"><%= message.time %></p>
 												</div>
-									
+											</a>
+										<% }); %>
+									</div>
 								</div>
-								<div class="card-footer small text-muted">Updated today at 11:59 PM</div>
+								<div class="card-footer small text-muted">Updated today at <%= updatedTime %></div>
 							</div><!-- end card-->					
 						</div>
 						<!-- end row -->
