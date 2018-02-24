@@ -53,9 +53,10 @@ var classModel = mongoose.model('ClassModel', classSchema);
 var classListModel = mongoose.model('ClassListModel', classListSchema);
 var messagesModel = mongoose.model('MessagesModel', messagesSchema);
 
-exports.createSession = function(name, idClass){
+exports.createSession = function(name, idClass, res){
     // Generate random ID string
     var id = ''; //
+    var response;
     classModel.create({
         className: name,
         classID: idClass,
@@ -70,12 +71,12 @@ exports.createSession = function(name, idClass){
         recording: false
     }, function (err, result) {
         if (err){
-            return {
+            response = {
                 'error': 1,
                 'Message': err
             }
         } else{
-            return {
+            response = {
                 'error':0,
                 'Message': {
                     'message': result,
@@ -83,24 +84,26 @@ exports.createSession = function(name, idClass){
                 }
             }
         }
+        res.status(200).send(response);
     });
 }
 
-exports.createClass = function(name){ // classListModel
+exports.createClass = function(name, res){ // classListModel
     // Generate classID (remove spaces from class name)
-    idClass = ''; //
+    var idClass = ''; //
+    var response;
     classListModel.create({ 
         className: name,
         classID: idClass,
         latestClassSessionID: null
     }, function (err, result) {
         if (err){
-            return {
+            response = {
                 'error': 1,
                 'Message': err
             }
         } else{
-            return {
+            response = {
                 'error':0,
                 'Message': {
                     'message': result,
@@ -108,27 +111,30 @@ exports.createClass = function(name){ // classListModel
                 }
             }
         }
+        res.status(200).send(response);
     });
 }
 
-exports.addAction = function(action, sessionID){ // classModel
+exports.addAction = function(action, sessionID, res){ // classModel
     classModel.findOne({ 'classSessionID': sessionID }, '', function (err, results) {
         // Update results?
+        var response;
         if (err){
-            return {
+            response = {
                 'error': 1,
                 'Message': err
             }
         } else{
-            return {
+            rresponse = {
                 'error':0,
                 'Message': result
             }
         }
+        res.status(200).send(response);
     });
 }
 
-exports.addMessage = function(message, sessionID, sender){
+exports.addMessage = function(message, sessionID, sender, res){
     var dateTime = new Date();
     var hour = (parseInt(dateTime.getHours()) > 9) ? dateTime.getHours() : "0" + dateTime.getHours();
     var minutes = (parseInt(dateTime.getMinutes()) > 9) ? dateTime.getMinutes() : "0" + dateTime.getMinutes();
@@ -141,22 +147,18 @@ exports.addMessage = function(message, sessionID, sender){
         sender: sender
     }, function (err, result) {
         if (err){
-            var response = JSON.stringify({
+            var response = {
                 'error': 1,
                 'Message': err
-            });
+            };
             console.log("RESPONSE: ", response);
         } else{
-            var response = JSON.stringify({
+            var response = {
                 'error': 0,
                 'Message': "Added message successfully"
-            });
+            };
             console.log("RESPONSE: ", response);
-            console.log(typeof response);
         }
+        res.status(200).send(response);
     });
-}
-
-exports.sayHello = function(name){
-    return "Hello, " + name;
 }
