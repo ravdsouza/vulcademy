@@ -1,4 +1,5 @@
 exports = module.exports = {};
+var main = require('./main.js');
 // REQUIRED NODE MODULES //
 var MongoClient = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
@@ -36,7 +37,8 @@ var classSchema = new Schema({
 var classListSchema = new Schema({
     className: String,
     classID: String,
-    latestClassSessionID: String
+    latestClassSessionID: String,
+    record: Boolean
 });
 
 // Store messages
@@ -44,7 +46,8 @@ var messagesSchema = new Schema({
     message: String,
     time: String,
     sessionID: String,
-    sender: String
+    sender: String,
+    avatar: String
 });
 
 // CREATE AND SAVE A MODEL //
@@ -53,9 +56,10 @@ var classModel = mongoose.model('ClassModel', classSchema);
 var classListModel = mongoose.model('ClassListModel', classListSchema);
 var messagesModel = mongoose.model('MessagesModel', messagesSchema);
 
-exports.createSession = function(name, idClass){
+exports.createSession = function(name, idClass, res){
     // Generate random ID string
     var id = ''; //
+    var response;
     classModel.create({
         className: name,
         classID: idClass,
@@ -70,12 +74,12 @@ exports.createSession = function(name, idClass){
         recording: false
     }, function (err, result) {
         if (err){
-            return {
+            response = {
                 'error': 1,
                 'Message': err
             }
         } else{
-            return {
+            response = {
                 'error':0,
                 'Message': {
                     'message': result,
@@ -83,24 +87,27 @@ exports.createSession = function(name, idClass){
                 }
             }
         }
+        res.status(200).send(response);
     });
 }
 
-exports.createClass = function(name){ // classListModel
+exports.createClass = function(name, res){ // classListModel
     // Generate classID (remove spaces from class name)
-    idClass = ''; //
+    var idClass = ''; //
+    var response;
     classListModel.create({ 
         className: name,
         classID: idClass,
-        latestClassSessionID: null
+        latestClassSessionID: null,
+        record: false
     }, function (err, result) {
         if (err){
-            return {
+            response = {
                 'error': 1,
                 'Message': err
             }
         } else{
-            return {
+            response = {
                 'error':0,
                 'Message': {
                     'message': result,
@@ -108,55 +115,96 @@ exports.createClass = function(name){ // classListModel
                 }
             }
         }
+        res.status(200).send(response);
     });
 }
 
-exports.addAction = function(action, sessionID){ // classModel
+exports.addAction = function(action, sessionID, res){ // classModel
     classModel.findOne({ 'classSessionID': sessionID }, '', function (err, results) {
         // Update results?
+        var response;
         if (err){
-            return {
+            response = {
                 'error': 1,
                 'Message': err
             }
         } else{
-            return {
+            rresponse = {
                 'error':0,
                 'Message': result
             }
         }
+        res.status(200).send(response);
     });
 }
 
-exports.addMessage = function(message, sessionID, sender){
-    var dateTime = new Date();
-    var hour = (parseInt(dateTime.getHours()) > 9) ? dateTime.getHours() : "0" + dateTime.getHours();
-    var minutes = (parseInt(dateTime.getMinutes()) > 9) ? dateTime.getMinutes() : "0" + dateTime.getMinutes();
-    var seconds = (parseInt(dateTime.getSeconds()) > 9) ? dateTime.getSeconds() : "0" + dateTime.getSeconds();
-    var time = hour + ":" + minutes + ":" + seconds;
+// Add adding message to class
+exports.addMessage = function(message, sessionID, sender, avatar, res){
+    var time = main.getCurrentTime();
     messagesModel.create({ 
         message: message,
         time: time,
         sessionID: sessionID,
-        sender: sender
+        sender: sender,
+        avatar: avatar
     }, function (err, result) {
         if (err){
-            var response = JSON.stringify({
+            var response = {
                 'error': 1,
                 'Message': err
-            });
+            };
             console.log("RESPONSE: ", response);
         } else{
-            var response = JSON.stringify({
+            var response = {
                 'error': 0,
                 'Message': "Added message successfully"
-            });
+            };
             console.log("RESPONSE: ", response);
-            console.log(typeof response);
         }
+        res.status(200).send(response);
     });
 }
 
-exports.sayHello = function(name){
-    return "Hello, " + name;
+exports.refreshDashProf = function(res){
+    // Call db to get data
+    var slowDownCount = 5;
+    var speedUpCount = 6;
+    var louderCount = 8;
+    var quieterCount = 2;
+    var slowDownPercent = parseInt(slowDownCount/(slowDownCount + speedUpCount) * 100);
+    var speedUpPercent = parseInt(speedUpCount/(slowDownCount + speedUpCount) * 100);
+    var louderPercent = parseInt(louderCount/(louderCount + quieterCount) * 100);
+    var quieterPercent = parseInt(quieterCount/(quieterCount + louderCount) * 100);
+    var messages = [{name: "Allyson Giannikouris", text: "Will these slides be on Learn?", time: "14:25:30", avatar: '10'}, 
+    {name: "Feridun Hamdullahpur", text: "Will this lecture be on the midterm?", time: "13:55:33", avatar: '5'}, 
+    {name: "Carla Daniels", text: "Can you explain how a BST works?", time: "13:35:59", avatar: '6'}]
+    var time = main.getCurrentTime();
+    console.log("Time: ", time);
+    res.render('index_prof', {
+        slowDownCount: slowDownCount,
+        slowDownPercent: slowDownPercent, 
+        speedUpCount: speedUpCount,
+        speedUpPercent: speedUpPercent,
+        louderCount: louderCount,
+        louderPercent: louderPercent,
+        quieterCount: quieterCount,
+        quieterPercent: quieterPercent,
+        messages: messages,
+        updatedTime: time
+    });
+}
+
+exports.updateRecordStatus = function(newStatus, classID, res){
+    if (newStatus === 'false'){ newStatus = false; } 
+    else{ newStatus = true; }
+    console.log(newStatus);
+    classListModel.update({ classID: "classID" }, {$set: { record: true }}, { upsert: true }, function(err, result){
+        console.log("ERR", err);
+        console.log("Result: ", result);
+    });
+    var response = {
+        'error': 0,
+        'Message': 'Successfully updated record status'
+    }
+    res.status(200).send(response);
 }

@@ -16,7 +16,7 @@ for (i = 0; i < question.length(); i++)
     var formText = "";
 
     document.getElementById("poll-op").innerHTML(`
-        <form>` 
+        <form` 
             + options1[0] + 
         `</form>
    `)
