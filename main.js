@@ -10,7 +10,12 @@ exports.app = app;
 exports.path = path;
 exports.bodyParser = bodyParser;
 
-exports.sayHello = function(name = "Nicole"){
-    return "Hello, " + name;
+exports.getCurrentTime = function(){
+    var dateTime = new Date();
+    var hour = (parseInt(dateTime.getHours()) > 9) ? dateTime.getHours() : "0" + dateTime.getHours();
+    var minutes = (parseInt(dateTime.getMinutes()) > 9) ? dateTime.getMinutes() : "0" + dateTime.getMinutes();
+    var seconds = (parseInt(dateTime.getSeconds()) > 9) ? dateTime.getSeconds() : "0" + dateTime.getSeconds();
+    return hour + ":" + minutes + ":" + seconds;
 }
+
 

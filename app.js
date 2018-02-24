@@ -14,32 +14,13 @@ main.app.get('/', function(req, res){
   res.sendFile(main.path.join(__dirname, 'public/index_prof.html'));
 });
 
-// Retrieves the count of the action buttons
-main.app.get('/get-action', function(req, res){
-    // Retrieve count of actions from DB
+main.app.get('/record', function(req, res){
+    res.render('record');
 });
-main.app.get('/get-updated-actions', function(req, res){
-    // Called by a db function
-    var slowDownCount = 5;
-    var speedUpCount = 6;
-    var louderCount = 8;
-    var quieterCount = 2;
-    var slowDownPercent = parseInt(slowDownCount/(slowDownCount + speedUpCount) * 100);
-    var speedUpPercent = parseInt(speedUpCount/(slowDownCount + speedUpCount) * 100);
-    var louderPercent = parseInt(louderCount/(louderCount + quieterCount) * 100);
-    var quieterPercent = parseInt(quieterCount/(quieterCount + louderCount) * 100);
-    res.render('index_prof', {
-        slowDownCount: slowDownCount,
-        slowDownPercent: slowDownPercent, 
-        speedUpCount: speedUpCount,
-        speedUpPercent: speedUpPercent,
-        louderCount: louderCount,
-        louderPercent: louderPercent,
-        quieterCount: quieterCount,
-        quieterPercent: quieterPercent
-    });
-}); 
 
+main.app.get('/update-dashboard-prof', function(req, res){ // Change to post
+    db.refreshDashProf(res);
+}); 
 
 // Update action in db (called when user clicks an action button)
 main.app.post('/post-action', function(req, res){
@@ -64,8 +45,16 @@ main.app.post('/post-message', function(req, res){
     var message = req.body.message;
     var idClass = req.body.idClass;
     var sender = req.body.sender;
-    db.addMessage(message, idClass, sender, res);
+    var avatar = req.body.avatar;
+    db.addMessage(message, idClass, sender, avatar, res);
 });
+
+main.app.post('/post-update-record', function(req, res){
+    var newStatus= req.body.newStatus;
+    var idClass = req.body.idClass;
+    db.updateRecordStatus(newStatus, idClass, res);
+})
+
 
 main.app.listen(7000, function () {
     console.log('Example app listening on 7000');
