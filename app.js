@@ -11,7 +11,18 @@ main.app.set('view engine', 'ejs');
 
 // At root route render index.html
 main.app.get('/', function(req, res){
+    res.render('login');
+});
+
+// Refress professor dashboard
+main.app.get('/dashboard-prof', function(req, res){
     db.refreshDashProf(res);
+});
+
+// Refresh student dashboard
+main.app.get('/dashboard-student', function(req, res){
+    res.render('index_student')
+    // db.refreshDashStudent(res);
 });
 
 main.app.get('/record', function(req, res){
