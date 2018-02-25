@@ -371,7 +371,8 @@ exports.addMsgs = function(text, sender, avatar, sessionID, res){ // classModel
                 "sessionID": sessionID, 
                 "message": text, 
                 "sender": sender, 
-                "avatar": avatar 
+                "avatar": avatar,
+                "time": main.getCurrentTime(),
             }, function(err, result) {
                 if (err){
                     response = {
@@ -381,10 +382,7 @@ exports.addMsgs = function(text, sender, avatar, sessionID, res){ // classModel
                 } else{
                     response = {
                         'error':0,
-                        'Message': {
-                            'message': "Successfully created session",
-                            'ID': id
-                        }
+                        'Message': "Successfully added message"
                     }
                 }
                 res.status(200).send(response);

@@ -350,6 +350,17 @@
 							<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 						</div><!-- end card-->					
 					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+							<div class="card mb-3">
+								<div class="card-header">
+									<i class="fa fa-table"></i> Star Rating
+								</div>
+								<div class="card-body">
+									<canvas id="pieStars"></canvas>
+								</div>
+								<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+							</div><!-- end card-->					
+						</div>
 					<!-- End of Pie Charts -->
 				</div>
 				<!-- end row -->
@@ -471,6 +482,32 @@
 			},
 			options: { responsive: true }
 	});
+	var ctx3 = document.getElementById("pieStars").getContext('2d');
+	var pieChart = new Chart(ctx3, {
+		type: 'pie',
+		data: {
+			datasets: [{
+				data: [90, 40, 35, 84, 12],
+				backgroundColor: [
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(3, 197, 243, 10)',
+					'rgba(179, 176, 200, 174)',
+					'rgba(273, 103, 38, 17)'
+				],
+				label: 'Dataset 1'
+			}],
+			labels: [
+				"5",
+				"4",
+				"3",
+				"2",
+				"1"
+			]
+		},
+		options: { responsive: true }
+	});
+
 
 	// radarChart
 	var ctx5 = document.getElementById("radarChart").getContext('2d');
