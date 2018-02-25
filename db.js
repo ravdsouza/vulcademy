@@ -157,13 +157,11 @@ exports.addMessage = function(message, sessionID, sender, avatar, res){
                 'error': 1,
                 'Message': err
             };
-            console.log("RESPONSE: ", response);
         } else{
             var response = {
                 'error': 0,
                 'Message': "Added message successfully"
             };
-            console.log("RESPONSE: ", response);
         }
         res.status(200).send(response);
     });
@@ -201,7 +199,6 @@ exports.refreshDashProf = function(sessionID, res){
                     'Message': results
                 }
             }
-            console.log(result.slowDownCount);
             // Speed up, slow down, louder, quieter actions
             var slowPercent, fastPercent, loudPercent, quietPercent;
             if (result.slowDownCount === 0 && result.speedUpCount === 0){ 
@@ -230,7 +227,6 @@ exports.refreshDashProf = function(sessionID, res){
                     avatar: message.avatar
                 });
             });
-            console.log("Messages: ", results);
             res.status(200).render('index_prof', {
                 slowDownCount: result.slowDownCount,
                 slowDownPercent: slowPercent, 
@@ -247,35 +243,6 @@ exports.refreshDashProf = function(sessionID, res){
             });
         });
     });
-
-    // // Call db to get data
-    // var slowDownCount = 5;
-    // var speedUpCount = 6;
-    // var louderCount = 8;
-    // var quieterCount = 2;
-    // var slowDownPercent = parseInt(slowDownCount/(slowDownCount + speedUpCount) * 100);
-    // var speedUpPercent = parseInt(speedUpCount/(slowDownCount + speedUpCount) * 100);
-    // var louderPercent = parseInt(louderCount/(louderCount + quieterCount) * 100);
-    // var quieterPercent = parseInt(quieterCount/(quieterCount + louderCount) * 100);
-    // var messages = [{name: "Allyson Giannikouris", text: "Will these slides be on Learn?", time: "14:25:30", avatar: '10'}, 
-    // {name: "Feridun Hamdullahpur", text: "Will this lecture be on the midterm?", time: "13:55:33", avatar: '5'}, 
-    // {name: "Carla Daniels", text: "Can you explain how a BST works?", time: "13:35:59", avatar: '6'}]
-    // var time = main.getCurrentTime();
-    // console.log("Time: ", time);
-    // res.status(200).render('index_prof', {
-    //     slowDownCount: slowDownCount,
-    //     slowDownPercent: slowDownPercent, 
-    //     speedUpCount: speedUpCount,
-    //     speedUpPercent: speedUpPercent,
-    //     louderCount: louderCount,
-    //     louderPercent: louderPercent,
-    //     quieterCount: quieterCount,
-    //     quieterPercent: quieterPercent,
-    //     messages: messages,
-    //     updatedTime: time,
-    //     courseName: courseName,
-    //     sessionID: sessionID
-    // });
 }
 
 exports.updateRecordStatus = function(newStatus, classID, res){
