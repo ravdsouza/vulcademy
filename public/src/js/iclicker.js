@@ -9,7 +9,7 @@ var options2 = document.getElementsByClassName("poll-op2")
 var options3 = document.getElementsByClassName("poll-op3")
 var options4 = document.getElementsByClassName("poll-op4")
 
-for (i = 0; i < question.length(); i++)
+for (i = 0; i < question.length; i++)
 {
     document.getElementById("poll-q").innerHTML(question[i]);
     
