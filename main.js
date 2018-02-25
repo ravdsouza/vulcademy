@@ -5,13 +5,15 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-var sessionIDLast
+var sessionIDLast;
+var classNameLast;
+
 exports.express = express;
 exports.app = app;
 exports.path = path;
 exports.bodyParser = bodyParser;
 exports.sessionIDLast = sessionIDLast;
-
+exports.classNameLast = classNameLast;
 
 exports.getCurrentTime = function(){
     var dateTime = new Date();

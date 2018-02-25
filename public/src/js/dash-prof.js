@@ -7,12 +7,16 @@ $(document).ready(function() {
         // Check what state the switch is in
         if (!($("#switch").hasClass('disabled'))){ // If changed to enabled
             newStatus = "true";
+            console.log("Now enabled");
             $("#record-status").html("Disable Lecture Recording");
         } else{
+            console.log("Now disabled");
             $("#record-status").html("Enable Lecture Recording");
         }
+        console.log("Hello World");
         // Get class id
         var classID = $("#classID").val();
+        console.log("classID(client): ", classID);
         $.ajax({
             method: "POST",
             url: "/post-update-record",
