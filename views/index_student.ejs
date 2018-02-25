@@ -266,7 +266,7 @@
 								<ul class="list-unstyled">
 									<li><a href="#">Combined</a></li>
 									<li><a href="#">MTE 203</a></li>
-									<li><a href="#">MTE 204</a></li>
+									<li><a href="#">ECON 201</a></li>
 									<li><a href="#">MTE 220</a></li>
 									<li><a href="#">MTE 241</a></li>
 									<li><a href="#">SYDE 252</a></li>
@@ -276,7 +276,7 @@
 							<a href="#"><i class="fa fa-fw fa-comments"></i> <span> Chat </span> <span class="menu-arrow"></span></a>
 								<ul class="list-unstyled">
 									<li><a href="#">MTE 203</a></li>
-									<li><a href="#">MTE 204</a></li>
+									<li><a href="#">ECON 201</a></li>
 									<li><a href="#">MTE 220</a></li>
 									<li><a href="#">MTE 241</a></li>
 									<li><a href="#">SYDE 252</a></li>
@@ -287,9 +287,9 @@
 								<ul class="list-unstyled">
 									<li><a href="#">Fri. Feb. 23, 2018</a></li>
 									<li><a href="#">Thurs. Feb. 22, 2018</a></li>
-									<li><a href="#">MTE 220</a></li>
-									<li><a href="#">MTE 241</a></li>
-									<li><a href="#">SYDE 252</a></li>
+									<li><a href="#">Wed. Feb 21, 2018</a></li>
+									<li><a href="#">Tues. Feb 20, 2018</a></li>
+									<li><a href="#">Mon. Feb 19, 2018</a></li>
 								</ul>
 						</li>
 				</ul>
@@ -378,28 +378,41 @@
 							<br>Send a message to the professor, select to be anonymous or visible to your class.
 						</div>
 						<div class="card-body">
-							<form action="#" data-parsley-validate novalidate>
-								<div class="form-group">
+							<form action="#" data-parsley-validate novalidate id="avatars">
+								1. <img src="/assets/images/avatars/avatar3.png" style="height:50px"/>
+								2. <img src="/assets/images/avatars/avatar4.png" style="height:50px"/> 
+								<br>
+								3. <img src="/assets/images/avatars/avatar6.png" style="height:50px"/> 
+								4. <img src="/assets/images/avatars/avatar7.png" style="height:50px"/> 
+								<br>
+								<br>
+
+								<div class="form-group" id="msg-name">
+									<label for="avatar">Avatar number:<span class="text-danger">*</span></label>
+									<input type="text" name="" data-parsley-trigger="change" required placeholder="Enter avatar number" class="form-control" id="avatar">
+								</div>  
+
+								<div class="form-group" id="msg-name">
 									<label for="userName">Name<span class="text-danger">*</span></label>
-									<input type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter Name" class="form-control" id="userName">
+									<input type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter name" class="form-control" id="userName">
 								</div>                                               
-								<div class="form-group">
+								<div class="form-group" id="msg-msg">
 									<label>Message</label>
 									<div>
 										<textarea required class="form-control" required placeholder="Enter message" ></textarea>
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group" id="msg-anon">
 									<div class="checkbox">
 										<input id="remember-1" type="checkbox">
 										<label for="remember-1"> Anonymous </label>
 									</div>
 								</div>
 								<div class="form-group text-right m-b-0">
-									<button class="btn btn-primary" type="submit">
+									<button class="btn btn-primary" id="submit-btn" type="submit">
 										Submit
 									</button>
-									<button type="reset" class="btn btn-secondary m-l-5">
+									<button type="reset" id="cancel-butt" class="btn btn-secondary m-l-5">
 										Cancel
 									</button>
 								</div>
