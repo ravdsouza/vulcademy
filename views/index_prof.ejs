@@ -23,6 +23,7 @@
 		<!-- BEGIN CSS for this page -->
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
 		<!-- END CSS for this page -->
+		<link rel="stylesheet" type="text/css" href="src/css/dash-prof.css"/>
 		
 </head>
 
@@ -222,27 +223,21 @@
 	<div class="left main-sidebar">
 	
 		<div class="sidebar-inner leftscroll">
-
 			<div id="sidebar-menu">
-        
-			<ul>
-
+				<ul>
 					<li class="submenu">
 						<a class="active" href="index.html"><i class="fa fa-fw fa-bars"></i><span> Dashboard </span> </a>
                     </li>
-
 					<li class="submenu">
                         <a href="charts.html"><i class="fa fa-fw fa-area-chart"></i><span> Charts </span> </a>
                     </li>
-					
 					<li class="submenu">
                         <a href="#"><i class="fa fa-fw fa-table"></i> <span> Tables </span> <span class="menu-arrow"></span></a>
 							<ul class="list-unstyled">
 								<li><a href="tables-basic.html">Basic Tables</a></li>
 								<li><a href="tables-datatable.html">Data Tables</a></li>
 							</ul>
-                    </li>
-										
+                    </li>				
                     <li class="submenu">
                         <a href="#"><i class="fa fa-fw fa-tv"></i> <span> User Interface </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
@@ -256,7 +251,6 @@
                                 <li><a href="ui-tooltips.html">Tooltips and Popovers</a></li>
                             </ul>
                     </li>
-
 					<li class="submenu">
                         <a href="#"><i class="fa fa-fw fa-file-text-o"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
@@ -269,7 +263,6 @@
 								<li><a href="forms-color-picker.html">Color Picker</a></li>
                             </ul>
                     </li>
-					
                     <li class="submenu">
 						<a href="#"><i class="fa fa-fw fa-th"></i> <span> Plugins </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
@@ -282,7 +275,6 @@
 								<li><a href="counter-up.html">Counter-Up</a></li>
                             </ul>
                     </li>
-
 					<li class="submenu">
                         <a href="#"><i class="fa fa-fw fa-image"></i> <span> Images and Galleries </span> <span class="menu-arrow"></span></a>
 							<ul class="list-unstyled">
@@ -294,7 +286,6 @@
 								
 							</ul>
                     </li>
-					
                     <li class="submenu">
                         <a href="#"><span class="label radius-circle bg-danger float-right">20</span><i class="fa fa-fw fa-copy"></i><span> Example Pages </span></a>
                             <ul class="list-unstyled">								
@@ -305,7 +296,6 @@
 								<li><a href="page-blank.html">Blank Page</a></li>
                             </ul>
                     </li>
-
 					<li class="submenu">
                         <a href="#"><span class="label radius-circle bg-primary float-right">9</span><i class="fa fa-fw fa-indent"></i><span> Menu Levels </span></a>
                             <ul>
@@ -321,7 +311,6 @@
                                 </li>                                
                             </ul>
                     </li>
-
 					<li class="submenu">
                         <a class="pro" href="#"><i class="fa fa-fw fa-star"></i><span> Pike Admin PRO </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">								
@@ -336,13 +325,9 @@
 								<li><a href="pro-slider.html">Slider</a></li>
                             </ul>
                     </li>
-					
             </ul>
-
             <div class="clearfix"></div>
-
 			</div>
-        
 			<div class="clearfix"></div>
 
 		</div>
@@ -352,12 +337,9 @@
 
 
     <div class="content-page">
-	
 		<!-- Start content -->
         <div class="content">
-            
 			<div class="container-fluid">
-					
 						<div class="row">
 									<div class="col-xl-12">
 											<div class="breadcrumb-holder">
@@ -371,6 +353,14 @@
 									</div>
 						</div>
 						<!-- end row -->
+						<div class="row">
+							<label id="switch-toggle" class="switch">
+								<input id="switch" type="checkbox" class='disabled'>
+								<span class="slider round"></span>
+							</label>
+							<p id="record-status" style="margin-left: 10px;margin-top:5px;">Enable Lecture Recording</p>
+							<p style="margin-left: 550px;margin-top:5px;">You are logged in: <label id="classID">MTE 100</label></p>
+						</div>
 						<div class="row" id="action-display">
 								<div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
 									<div class="card-box noradius noborder bg-success">
@@ -409,7 +399,6 @@
 								</div>
 						</div>
 						<!-- end row -->
-
 						<div id="comments-display" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
 							<div class="card mb-3">
 								<div class="card-header">
@@ -761,6 +750,7 @@
 
 <!-- App js -->
 <script src="assets/js/pikeadmin.js"></script>
+<script src="src/js/dash-prof.js"></script>
 
 <!-- BEGIN Java Script for this page -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
