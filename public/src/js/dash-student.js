@@ -2,8 +2,8 @@ $(document).ready(function() {
     console.log("dash-student.js attached");
 
     document.getElementById("refresh-btn").addEventListener("click", function(){
-        var className = $("#classID").val();
-        var sessionID = $("#sessionID").val();
+        var className = $("#classID").text();
+        var sessionID = $("#sessionID").text();
         $.ajax({
             method: "POST",
             url: "/dashboard-student",
@@ -22,16 +22,10 @@ $(document).ready(function() {
 
     document.getElementById("faster-btn").addEventListener("click", function(){
         console.log("Clicked faster-btn button");
-        var className = $("#classID").val();
-        var sessionID = $("#sessionID").val();
-        console.log("Sending to post-action");
+        var sessionID = $("#sessionID").text();
         $.ajax({
-            method: "POST",
-            url: "/post-action",
-            data: {
-                action: "speedUp",
-                sessionID: sessionID
-            },
+            method: "GET",
+            url: "/get-action/speedUp/" + sessionID,
             success: function(data){
                 console.log("Successfully updated action to DB")
             },
@@ -43,21 +37,58 @@ $(document).ready(function() {
 
     document.getElementById("slower-btn").addEventListener("click", function(){
         console.log("Clicked slower-btn button");
+        var sessionID = $("#sessionID").text();
+        console.log("Sending to post-action");
+        $.ajax({
+            method: "GET",
+            url: "/get-action/slowDown/" + sessionID,
+            success: function(data){
+                console.log("Successfully updated action to DB")
+            },
+            error: function(){
+                console.log("Error updating action to DB");
+            }
+        });
     });
 
     document.getElementById("louder-btn").addEventListener("click", function(){
         console.log("Clicked louder-btn button");
+        var sessionID = $("#sessionID").text();
+        console.log("Sending to post-action");
+        $.ajax({
+            method: "GET",
+            url: "/get-action/louder/" + sessionID,
+            success: function(data){
+                console.log("Successfully updated action to DB")
+            },
+            error: function(){
+                console.log("Error updating action to DB");
+            }
+        });
     });
 
     document.getElementById("quieter-btn").addEventListener("click", function(){
         console.log("Clicked quieter-btn button");
+        var className = $("#classID").text();
+        var sessionID = $("#sessionID").text();
+        console.log("Sending to post-action");
+        $.ajax({
+            method: "GET",
+            url: "/get-action/quieter/" + sessionID,
+            success: function(data){
+                console.log("Successfully updated action to DB")
+            },
+            error: function(){
+                console.log("Error updating action to DB");
+            }
+        });
     });
 
 
 
     // $("#faster-btn").on('click', function(){
     //     // // Get class id
-    //     var classID = $("#classID").val();
+    //     var classID = $("#classID").text();
     //     $.ajax({
     //         method: "POST",
     //         url: "/post-action",
@@ -76,7 +107,7 @@ $(document).ready(function() {
 
     // $("#slower-btn").on('click', function(){
     //     // // Get class id
-    //     var classID = $("#classID").val();
+    //     var classID = $("#classID").text();
     //     $.ajax({
     //         method: "POST",
     //         url: "/post-action",
@@ -95,7 +126,7 @@ $(document).ready(function() {
 
     // $("#louder-btn").on('click', function(){
     //     // // Get class id
-    //     var classID = $("#classID").val();
+    //     var classID = $("#classID").text();
     //     $.ajax({
     //         method: "POST",
     //         url: "/post-action",
@@ -114,7 +145,7 @@ $(document).ready(function() {
 
     // $("#quieter-btn").on('click', function(){
     //     // // Get class id
-    //     var classID = $("#classID").val();
+    //     var classID = $("#classID").text();
     //     $.ajax({
     //         method: "POST",
     //         url: "/post-action",
