@@ -17,24 +17,23 @@ main.app.get('/', function(req, res){
 // Refress professor dashboard
 main.app.get('/dashboard-prof', function(req, res){
     var sessionID = main.sessionIDLast;
-    db.refreshDashProf(sessionID, res);
+    var className = main.classNameLast;
+    db.refreshDashProf(sessionID, className, res);
 });
 
 // Refresh student dashboard
 main.app.get('/dashboard-student', function(req, res){
     var sessionID = main.sessionIDLast;
-    db.refreshDashStudent(sessionID, res);
+    var className = main.classNameLast;
+    db.refreshDashStudent(sessionID, className, res);
 });
 
-main.app.get('/record', function(req, res){
-    res.render('record');
-});
 
 // Update action in db (called when user clicks an action button)
 main.app.post('/post-action', function(req, res){
     var action = req.body.action;
     var sessionID = req.body.sessionID;
-    main.addAction(action, sessionID, res);
+    db.addAction(action, sessionID, res);
 });
 
 main.app.post('/post-create-class', function(req, res){
@@ -43,16 +42,15 @@ main.app.post('/post-create-class', function(req, res){
     var idClass = className.replace(/\s/g, '');
     var sessionID = req.body.sessionID; // Only for student (else '')
     console.log("User: ", user);
+    console.log("Class Name: ", className);
     if (user === 'prof'){
         // db.createClass(className, user, res);
+        main.classNameLast = className;
         db.createSession(className, idClass, res);
     } else{
         main.sessionIDLast = sessionID;
-        // res.status(200).render('index_student', {
-        //     sessionID: sessionID,
-        //     courseName: className
-        // });
-        db.refreshDashStudent(sessionID, res);
+        main.classNameLast = className;
+        db.refreshDashStudent(sessionID, className, res);
     }
 });
 
@@ -76,7 +74,6 @@ main.app.post('/post-update-record', function(req, res){
     var idClass = req.body.idClass;
     db.updateRecordStatus(newStatus, idClass, res);
 });
-
 
 main.app.listen(7000, function () {
     console.log('Example app listening on 7000');

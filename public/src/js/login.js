@@ -20,6 +20,7 @@ $(document).ready(function() {
             success: function(data){
                 console.log("User if data: ", user);
                 console.log("Successfully created a class session");
+                console.log("SUCCESS: ", user);
                 if (user === "prof"){
                     location.pathname = "/dashboard-prof";
                 } else{

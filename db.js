@@ -140,15 +140,15 @@ exports.createClass = function(name, user, res){ // classListModel
 exports.addAction = function(action, sessionID, res){ // classModel
     classModel.findOne({classSessionID: sessionID}, function(err, results){
         if (action === "speedUp"){
-            classModel.update({classSessionID: sessionID},{$set: {speedUpCount: (++ results.speedUpCount) }},{upsert: true});
+            classModel.update({"classSessionID": sessionID},{$set: {"speedUpCount": (++ results.speedUpCount) }});
         } else if (action === "slowDown"){
-            classModel.update({classSessionID: sessionID},{$set: {slowDownCount: (++ results.slowDownCount) }},{upsert: true});
+            classModel.update({"classSessionID": sessionID},{$set: {"slowDownCount": (++ results.slowDownCount) }});
         } else if (action === "louder"){
-            classModel.update({classSessionID: sessionID},{$set: {louderCount: (++ results.louderCount) }},{upsert: true});
+            classModel.update({"classSessionID": sessionID},{$set: {"louderCount": (++ results.louderCount) }});
         } else if(action === "quieter"){
-            classModel.update({classSessionID: sessionID},{$set: {quieterCount: (++ results.quieterCount) }},{upsert: true});
+            classModel.update({"classSessionID": sessionID},{$set: {"quieterCount": (++ results.quieterCount) }});
         }
-        res.status(200).render('student',{
+        res.status(200).render('index_student',{
             //  EJS variables you need in student.ejs
             courseName: results.className,
             sessionID: sessionID
@@ -182,12 +182,26 @@ exports.addMessage = function(message, sessionID, sender, avatar, res){
 }
 
 exports.updateRecordStatus = function(newStatus, classID, res){
+    if (classID === null || classID === undefined || classID === ''){ classID = main.classNameLast; }
+    console.log("ClassID: ", classID);
     if (newStatus === 'false'){ newStatus = 0; } 
     else{ newStatus = 1; }
+    console.log(newStatus);
     // Class
-    classListModel.update({ classID: classID }, {$set: { record: newStatus }}, { upsert: true });
+    classListModel.update({ "classID": classID }, {$set: { "record": newStatus }},
+    function(err, result){
+        console.log('------------ 1');
+        console.log("Result: ", result);
+        console.log("ClassID: ", classID);
+    });
     // Session
-    classModel.update({ classID: classID }, {$set: { recording: newStatus }}, { upsert: true });
+    classModel.update({ "classID": classID }, {$set: { "recording": newStatus }},
+    function(err, result){
+        console.log('------------ 2');
+        console.log("Result: ", result);
+        console.log("ClassID: ", classID);
+    });
+    // Response
     var response = {
         'error': 0,
         'Message': 'Successfully updated record status'
@@ -195,7 +209,7 @@ exports.updateRecordStatus = function(newStatus, classID, res){
     res.status(200).send(response);
 }
 
-exports.refreshDashProf = function(sessionID, res){
+exports.refreshDashProf = function(sessionID, className, res){
     classModel.findOne({ 'classSessionID': sessionID }, '', function (err, result) {
         var response;
         if (err){
@@ -223,58 +237,76 @@ exports.refreshDashProf = function(sessionID, res){
                     'Message': results
                 }
             }
-            // Speed up, slow down, louder, quieter actions
-            var slowPercent, fastPercent, loudPercent, quietPercent;
-            if (result.slowDownCount === 0 && result.speedUpCount === 0){ 
-                slowPercent = 0;
-                fastPercent = 0;
-            }
-            else { 
-                slowPercent = parseInt(result.slowDownCount/(result.slowDownCount + result.speedUpCount) * 100);
-                fastPercent = parseInt(result.speedUpCount/(result.slowDownCount + result.speedUpCount) * 100);
-            }
-            if (result.louderCount === 0 && result.quieterCount === 0){ 
-                loudPercent = 0;
-                quietPercent = 0;
-            }
-            else { 
-                loudPercent = parseInt(result.louderCount/(result.louderCount + result.quieterCount) * 100);
-                quietPercent = parseInt(result.quieterCount/(result.louderCount + result.quieterCount) * 100);
-            }
-            // Messages
-            var messages = [];
-            results.forEach(function(message){
-                messages.splice(0, 0, {
-                    name: message.sender,
-                    text: message.message,
-                    time: message.time,
-                    avatar: message.avatar
+            if (result !== null && result.length > 0){
+                // Speed up, slow down, louder, quieter actions
+                var slowPercent, fastPercent, loudPercent, quietPercent;
+                if (result.slowDownCount === 0 && result.speedUpCount === 0){ 
+                    slowPercent = 0;
+                    fastPercent = 0;
+                }
+                else { 
+                    slowPercent = parseInt(result.slowDownCount/(result.slowDownCount + result.speedUpCount) * 100);
+                    fastPercent = parseInt(result.speedUpCount/(result.slowDownCount + result.speedUpCount) * 100);
+                }
+                if (result.louderCount === 0 && result.quieterCount === 0){ 
+                    loudPercent = 0;
+                    quietPercent = 0;
+                }
+                else { 
+                    loudPercent = parseInt(result.louderCount/(result.louderCount + result.quieterCount) * 100);
+                    quietPercent = parseInt(result.quieterCount/(result.louderCount + result.quieterCount) * 100);
+                }
+                // Messages
+                var messages = [];
+                results.forEach(function(message){
+                    messages.splice(0, 0, {
+                        name: message.sender,
+                        text: message.message,
+                        time: message.time,
+                        avatar: message.avatar
+                    });
                 });
-            });
-            res.status(200).render('index_prof', {
-                slowDownCount: result.slowDownCount,
-                slowDownPercent: slowPercent, 
-                speedUpCount: result.speedUpCount,
-                speedUpPercent: fastPercent,
-                louderCount: result.louderCount,
-                louderPercent: loudPercent,
-                quieterCount: result.quieterCount,
-                quieterPercent: quietPercent,
-                messages: messages,
-                updatedTime: main.getCurrentTime(),
-                courseName: result.className,
-                sessionID: sessionID
-            });
+                res.status(200).render('index_prof', {
+                    slowDownCount: result.slowDownCount,
+                    slowDownPercent: slowPercent, 
+                    speedUpCount: result.speedUpCount,
+                    speedUpPercent: fastPercent,
+                    louderCount: result.louderCount,
+                    louderPercent: loudPercent,
+                    quieterCount: result.quieterCount,
+                    quieterPercent: quietPercent,
+                    messages: messages,
+                    updatedTime: main.getCurrentTime(),
+                    courseName: className,
+                    sessionID: sessionID
+                });
+            } else {
+                res.status(200).render('index_prof', {
+                    slowDownCount: 0,
+                    slowDownPercent: 0, 
+                    speedUpCount: 0,
+                    speedUpPercent: 0,
+                    louderCount: 0,
+                    louderPercent: 0,
+                    quieterCount: 0,
+                    quieterPercent: 0,
+                    messages: [],
+                    updatedTime: main.getCurrentTime(),
+                    courseName: className,
+                    sessionID: sessionID
+                });
+            }
         });
     });
 }
 
-exports.refreshDashStudent = function(sessionID, res){
+exports.refreshDashStudent = function(sessionID, className, res){
+    console.log("Refresh student");
     classModel.findOne({ 'classSessionID': sessionID }, '', function (err, results) {
-        var courseName = results.className;
-        res.status(200).render('student',{
+        // var courseName = results.className;
+        res.status(200).render('index_student',{
             //  EJS variables you need in student.ejs
-            courseName: results.className,
+            courseName: className,
             sessionID: sessionID
         });
     });
