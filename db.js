@@ -148,10 +148,11 @@ exports.addAction = function(action, sessionID, res){ // classModel
         } else if(action === "quieter"){
             classModel.update({classSessionID: sessionID},{$set: {quieterCount: (++ results.quieterCount) }},{upsert: true});
         }
-        // res.status(200).render('index_student',{
-        //     //  EJS variables you need in index_student.ejs
-        // }
-        res.status(200).render('index_student');
+        res.status(200).render('student',{
+            //  EJS variables you need in student.ejs
+            courseName: results.className,
+            sessionID: sessionID
+        });
     });
 }
 
@@ -178,6 +179,20 @@ exports.addMessage = function(message, sessionID, sender, avatar, res){
         }
         res.status(200).send(response);
     });
+}
+
+exports.updateRecordStatus = function(newStatus, classID, res){
+    if (newStatus === 'false'){ newStatus = 0; } 
+    else{ newStatus = 1; }
+    // Class
+    classListModel.update({ classID: classID }, {$set: { record: newStatus }}, { upsert: true });
+    // Session
+    classModel.update({ classID: classID }, {$set: { recording: newStatus }}, { upsert: true });
+    var response = {
+        'error': 0,
+        'Message': 'Successfully updated record status'
+    }
+    res.status(200).send(response);
 }
 
 exports.refreshDashProf = function(sessionID, res){
@@ -254,93 +269,13 @@ exports.refreshDashProf = function(sessionID, res){
     });
 }
 
-exports.updateRecordStatus = function(newStatus, classID, res){
-    if (newStatus === 'false'){ newStatus = 0; } 
-    else{ newStatus = 1; }
-    // Class
-    classListModel.update({ classID: classID }, {$set: { record: newStatus }}, { upsert: true });
-    // Session
-    classModel.update({ classID: classID }, {$set: { recording: newStatus }}, { upsert: true });
-    var response = {
-        'error': 0,
-        'Message': 'Successfully updated record status'
-    }
-    res.status(200).send(response);
-}
-
 exports.refreshDashStudent = function(sessionID, res){
-    console.log(sessionID);
-    classModel.findOne({ 'classSessionID': sessionID }, '', function (err, result) {
-        // Update results?
-        console.log("Result(class): ", result);
-        var response;
-        if (err){
-            response = {
-                'error': 1,
-                'Message': err
-            }
-            res.status(200).send(response);
-        } else{
-            response = {
-                'error':0,
-                'Message': result
-            }
-        }
-        messagesModel.find({ 'sessionID': sessionID }, '', function (err, results) {
-            if (err){
-                response = {
-                    'error': 1,
-                    'Message': err
-                }
-                res.status(200).send(response);
-            } else{
-                response = {
-                    'error':0,
-                    'Message': results
-                }
-            }
-            // Speed up, slow down, louder, quieter actions
-            var slowPercent, fastPercent, loudPercent, quietPercent;
-            if (result.slowDownCount === 0 && result.speedUpCount === 0){ 
-                slowPercent = 0;
-                fastPercent = 0;
-            }
-            else { 
-                slowPercent = parseInt(result.slowDownCount/(result.slowDownCount + result.speedUpCount) * 100);
-                fastPercent = parseInt(result.speedUpCount/(result.slowDownCount + result.speedUpCount) * 100);
-            }
-            if (result.louderCount === 0 && result.quieterCount === 0){ 
-                loudPercent = 0;
-                quietPercent = 0;
-            }
-            else { 
-                loudPercent = parseInt(result.louderCount/(result.louderCount + result.quieterCount) * 100);
-                quietPercent = parseInt(result.quieterCount/(result.louderCount + result.quieterCount) * 100);
-            }
-            // Messages
-            var messages = [];
-            results.forEach(function(message){
-                messages.splice(0, 0, {
-                    name: message.sender,
-                    text: message.message,
-                    time: message.time,
-                    avatar: message.avatar
-                });
-            });
-            res.status(200).render('index_student', {
-                slowDownCount: result.slowDownCount,
-                slowDownPercent: slowPercent, 
-                speedUpCount: result.speedUpCount,
-                speedUpPercent: fastPercent,
-                louderCount: result.louderCount,
-                louderPercent: loudPercent,
-                quieterCount: result.quieterCount,
-                quieterPercent: quietPercent,
-                messages: messages,
-                updatedTime: main.getCurrentTime(),
-                courseName: result.className,
-                sessionID: sessionID
-            });
+    classModel.findOne({ 'classSessionID': sessionID }, '', function (err, results) {
+        var courseName = results.className;
+        res.status(200).render('student',{
+            //  EJS variables you need in student.ejs
+            courseName: results.className,
+            sessionID: sessionID
         });
     });
 }
