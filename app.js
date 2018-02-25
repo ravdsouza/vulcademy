@@ -16,7 +16,7 @@ main.app.get('/', function(req, res){
 
 // Refress professor dashboard
 main.app.get('/dashboard-prof', function(req, res){
-    var sessionID = 'zbueypabzq';
+    var sessionID = main.sessionIDLast;
     db.refreshDashProf(sessionID, res);
 });
 
@@ -30,10 +30,6 @@ main.app.get('/record', function(req, res){
     res.render('record');
 });
 
-// main.app.get('/update-dashboard-prof', function(req, res){ // Change to post
-//     db.refreshDashProf(res);
-// }); 
-
 // Update action in db (called when user clicks an action button)
 main.app.post('/post-action', function(req, res){
     var action = req.body.action;
@@ -45,14 +41,13 @@ main.app.post('/post-create-class', function(req, res){
     var className = req.body.className;
     var user = req.body.user;
     var idClass = className.replace(/\s/g, '');
+    var sessionID = req.body.sessionID; // Only for student (else '')
     if (user === 'prof'){
         // db.createClass(className, user, res);
         db.createSession(className, idClass, res);
     } else{
-        res.status(200).send({
-            'error': 0,
-            'Message': "User is a student"
-        });
+        main.sessionIDLast = sessionID;
+        db.refreshDashProf(sessionID, res);
     }
 });
 
@@ -76,7 +71,6 @@ main.app.post('/post-update-record', function(req, res){
     var idClass = req.body.idClass;
     db.updateRecordStatus(newStatus, idClass, res);
 })
-
 
 main.app.listen(7000, function () {
     console.log('Example app listening on 7000');

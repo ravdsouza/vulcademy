@@ -60,6 +60,7 @@ var messagesModel = mongoose.model('MessagesModel', messagesSchema);
 exports.createSession = function(name, idClass, res){
     // Generate random ID string
     var id = String(Math.random().toString(36).substring(2));
+    main.sessionIDLast = id;
     var response;
     classModel.create({
         className: name,
@@ -88,7 +89,20 @@ exports.createSession = function(name, idClass, res){
                 }
             }
         }
-        res.status(200).send(response);
+        res.status(200).render('index_prof', {
+            slowDownCount: 0,
+            slowDownPercent: 0, 
+            speedUpCount: 0,
+            speedUpPercent: 0,
+            louderCount: 0,
+            louderPercent: 0,
+            quieterCount: 0,
+            quieterPercent: 0,
+            messages: [],
+            updatedTime: main.getCurrentTime(),
+            courseName: result.className,
+            sessionID: id
+        });
     });
 }
 
@@ -168,11 +182,7 @@ exports.addMessage = function(message, sessionID, sender, avatar, res){
 }
 
 exports.refreshDashProf = function(sessionID, res){
-    var sessionID = "a29sgd07sj";
-    var courseName = "MTE 100";
-
     classModel.findOne({ 'classSessionID': sessionID }, '', function (err, result) {
-        // Update results?
         var response;
         if (err){
             response = {

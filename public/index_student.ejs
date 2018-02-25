@@ -23,7 +23,6 @@
 		<!-- BEGIN CSS for this page -->
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
 		<!-- END CSS for this page -->
-		<link rel="stylesheet" type="text/css" href="src/css/dash-prof.css"/>
 		
 </head>
 
@@ -223,8 +222,11 @@
 	<div class="left main-sidebar">
 	
 		<div class="sidebar-inner leftscroll">
+
 			<div id="sidebar-menu">
+        
 			<ul>
+
 					<li class="submenu">
 						<a class="active" href="/dashboard-student"><i class="fa fa-fw fa-bars"></i><span> Dashboard </span> </a>
                     </li>
@@ -340,7 +342,9 @@
             <div class="clearfix"></div>
 
 			</div>
+        
 			<div class="clearfix"></div>
+
 		</div>
 
 	</div>
@@ -367,27 +371,21 @@
 									</div>
 						</div>
 						<!-- end row -->
+
+						<!-- <div class="alert alert-danger" role="alert">
+						<h4 class="alert-heading">Info!</h4>
+						<p>Do you want custom development to integrate this theme in your project? Or add new features? Contact us on <a target="_blank" href="https://www.pikeadmin.com"><b>Pike Admin Website</b></a></p>
+						<p>Or try our PRO version: <b>Save over 50 hours of development with our Pro Framework: Registration / Login / Users Management, CMS, Front-End Template (who will load contend added in admin area and saved in MySQL database), Contact Messages Management, manage Website Settings and many more, at an incredible price!</b></p>
+						<p>Read more about all PRO features here: <a target="_blank" href="https://www.pikeadmin.com/pike-admin-pro"><b>Pike Admin PRO features</b></a></p>
+						</div> -->
 						
 							<div class="row">
-								<label id="switch-toggle" class="switch">
-									<input id="switch" type="checkbox" class='disabled'>
-									<span class="slider round"></span>
-								</label>
-								<p id="record-status" style="margin-left: 10px;margin-top:5px;">Lecture Recording</p>
-								<p style="margin-left: 750px ;margin-top:5px;">You are logged in: <label id="classID">MTE 100</label></p>
-							</div>
-
-
-							<div class="row">
-
-									<form action = "/submitForm" method="post"></form>
-										<button type="submit" name="speedUp" value="speedUp" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-											<div class="card-box noradius noborder bg-success">
+									<button class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+										<div class="card-box noradius noborder bg-success">
 												<h6 class="text-white text-uppercase m-b-20">Speed Up</h6>
 												<i class="fa fa-forward float-center text-white"></i>
-											</div>
-										</button>
-									</form>
+										</div>
+									</button>
 
 									<button class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
 										<div class="card-box noradius noborder bg-warning">
@@ -430,38 +428,38 @@
 									<div class="card mb-3">
 											<div class="card-header">
 												<h3><i class="fa fa-envelope-o"></i> Create a new message</h3>
-												<br>Send a message to the professor, select to be anonymous or visible to your class.
+												Send a message to the professor, select to be anonymous or visible to your class.
 											</div>
 
 											<div class="card-body">
 													<form action="#" data-parsley-validate novalidate>
-															<div class="form-group">
-																<label for="userName">Name<span class="text-danger">*</span></label>
-																<input type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter Name" class="form-control" id="userName">
-															</div>                                               
-															<div class="form-group">
-																<label>Message</label>
-																<div>
-																	<textarea required class="form-control" required placeholder="Enter message" ></textarea>
+																<div class="form-group">
+																	<label for="userName">Name<span class="text-danger">*</span></label>
+																	<input type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter Name" class="form-control" id="userName">
+																</div>                                               
+																<div class="form-group">
+																	<label>Message</label>
+																	<div>
+																		<textarea required class="form-control" required placeholder="Enter message" ></textarea>
+																	</div>
 																</div>
-															</div>
-															<div class="form-group">
-																<div class="checkbox">
-																	<input id="remember-1" type="checkbox">
-																	<label for="remember-1"> Anonymous </label>
+																<div class="form-group">
+																	<div class="checkbox">
+																		<input id="remember-1" type="checkbox">
+																		<label for="remember-1"> Anonymous </label>
+																	</div>
 																</div>
-															</div>
-		
-															<div class="form-group text-right m-b-0">
-																<button class="btn btn-primary" type="submit">
-																	Submit
-																</button>
-																<button type="reset" class="btn btn-secondary m-l-5">
-																	Cancel
-																</button>
-															</div>
-		
-												</form>
+			
+																<div class="form-group text-right m-b-0">
+																	<button class="btn btn-primary" type="submit">
+																		Submit
+																	</button>
+																	<button type="reset" class="btn btn-secondary m-l-5">
+																		Cancel
+																	</button>
+																</div>
+			
+													</form>
 													
 										</div>														
 									</div><!-- end card-->					
@@ -496,26 +494,6 @@
 												</a>
 											</div>
 										
-											
-											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">		
-												<div class="card mb-3">
-														<div class="card-header">
-															<h3><i class="fa fa-poll-o"></i>Class poll</h3>
-															<br>Share your opinion in a class poll
-														</div>
-			
-														<div class="card-body">
-															<div id="poll">
-																
-															</div>
-															
-																
-													</div>														
-												</div><!-- end card-->					
-											</div>
-			
-
-
 									</div>
 									<div class="card-footer small text-muted">Updated today at 11:59 PM</div>
 								</div><!-- end card-->					
@@ -549,9 +527,6 @@
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 
-<!-- iclicker import file for js editing -->
-<script src="/iclicker.js"></script>
-
 <script src="assets/js/detect.js"></script>
 <script src="assets/js/fastclick.js"></script>
 <script src="assets/js/jquery.blockUI.js"></script>
@@ -571,6 +546,51 @@
 	<!-- Counter-Up-->
 	<script src="assets/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
 	<script src="assets/plugins/counterup/jquery.counterup.min.js"></script>			
+
+	<script>
+		$(document).ready(function() {
+			// data-tables
+			$('#example1').DataTable();
+					
+			// counter-up
+			$('.counter').counterUp({
+				delay: 10,
+				time: 600
+			});
+		} );		
+	</script>
+	
+	<script>
+	var ctx2 = document.getElementById("pieChart").getContext('2d');
+	var pieChart = new Chart(ctx2, {
+		type: 'pie',
+		data: {
+				datasets: [{
+					data: [12, 19, 3, 5, 2, 3],
+					backgroundColor: [
+						'rgba(255,99,132,1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)'
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					"Red",
+					"Orange",
+					"Yellow",
+					"Green",
+					"Blue"
+				]
+			},
+			options: {
+				responsive: true
+			}
+	 
+	});
+	</script>
 
 	<script>
 	$(document).ready(function(){
