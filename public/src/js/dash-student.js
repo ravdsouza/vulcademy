@@ -87,11 +87,18 @@ $(document).ready(function() {
 
     // ***** MESSAGES ***** //
     document.getElementById("submit-btn").addEventListener("click", function(){
-        console.log("Clicked faster-btn button");
+        console.log("Clicked submit-btn button");
         var sessionID = $("#sessionID").text();
+        var message = $("#msg-msg").val();
+        var avatar = $("#avatar").val();
+        var name = $("#userName").val();
+        console.log(sessionID);
+        console.log(message);
+        console.log(avatar);
+        console.log(name);
         $.ajax({
             method: "GET",
-            url: "/get-action/speedUp/" + sessionID,
+            url: "/get-message/" + message + "/" + name + "/" + avatar + "/" + sessionID,
             success: function(data){
                 console.log("Successfully updated action to DB")
             },

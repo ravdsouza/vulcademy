@@ -36,6 +36,15 @@ main.app.get('/get-action/:action/:sessionID', function(req, res){
     db.addAction(action, sessionID, res);
 });
 
+main.app.get('/get-message/:message/:name/:avatar/:sessionID', function(req, res){
+    var sessionID = req.params.sessionID;
+    var avatar = req.params.avatar;
+    var name = req.params.name;
+    var message = req.params.message;
+    console.log(req.params);
+    db.addMsgs(message, name, avatar, sessionID, res);
+});
+
 
 main.app.post('/dashboard-prof', function(req, res){
     var sessionID = req.body.sessionID;
