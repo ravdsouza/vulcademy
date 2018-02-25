@@ -401,7 +401,8 @@
 							<h3><i class="fa fa-envelope-o"></i> Latest Comments/Questions</h3>
 							See questions that students have and what questions are popular
 						</div>
-						<div class="card-body">
+
+<div class="card-body">
 							<div class="widget-messages nicescroll" style="height: 400px;">
 								<% messages.forEach(function(message) { %>
 									<a href="#">
@@ -410,9 +411,72 @@
 											<p class="message-item-user"><%= message.name %></p>
 											<p class="message-item-msg"><%= message.text %></p>
 											<p class="message-item-date"><%= message.time %></p>
+                    </div>
+                  </a>
+                <%});%>
+              </div>
+						<!-- end row -->
+
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">		
+								<div class="card mb-3">
+										<div class="card-header">
+											<h3><i class="fa fa-poll-o"></i>Class poll</h3>
+											<br>Ask students questions to get feedback
 										</div>
-									</a>
-								<% }); %>
+
+										<div class="card-body">
+											<div id="poll">
+												<form>
+													<!-- write to db from here..... figure it out -->
+
+													Question:   
+													<input type="text" name="poll-q">
+													<br><br>
+													Option 1*:
+													<input type="text" name="poll-op1">
+													<br><br>
+													Option 2*:
+													<input type="text" name="poll-op2">
+													<br><br>
+													Option 3:
+													<input type="text" name="poll-op3">
+													<br><br>
+													Option 4:
+													<input type="text" name="poll-op4">
+													<br><br>
+													<input type="submit" value="Submit">
+												</form>
+											</div>
+											
+									</div>														
+								</div><!-- end card-->					
+							</div>
+	
+						<div class="row">
+						
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">						
+									<div class="card mb-3">
+										<div class="card-header">
+											<h3><i class="fa fa-line-chart"></i> Items Sold Amount</h3>
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non luctus metus. Vivamus fermentum ultricies orci sit amet sollicitudin.
+										</div>
+											
+										<div class="card-body">
+											<canvas id="lineChart"></canvas>
+										</div>							
+										<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+									</div><!-- end card-->					
+								</div>
+
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">						
+									<div class="card mb-3">
+										<div class="card-header">
+											<h3><i class="fa fa-bar-chart-o"></i> Colour Analytics</h3>
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non luctus metus. Vivamus fermentum ultricies orci sit amet sollicitudin.
+										</div>
+											
+										<div class="card-body">
+											<canvas id="pieChart"></canvas>
 							</div>
 						</div>
 						<div class="card-footer small text-muted">Updated today at <%= updatedTime %></div>
