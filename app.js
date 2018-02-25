@@ -22,8 +22,8 @@ main.app.get('/dashboard-prof', function(req, res){
 
 // Refresh student dashboard
 main.app.get('/dashboard-student', function(req, res){
-    res.render('index_student')
-    // db.refreshDashStudent(res);
+    var sessionID = 'zbueypabzq';
+    db.refreshDashStudent(sessionID, res);
 });
 
 main.app.get('/record', function(req, res){
@@ -70,7 +70,8 @@ main.app.post('/post-update-record', function(req, res){
     var newStatus= req.body.newStatus;
     var idClass = req.body.idClass;
     db.updateRecordStatus(newStatus, idClass, res);
-})
+});
+
 
 main.app.listen(7000, function () {
     console.log('Example app listening on 7000');

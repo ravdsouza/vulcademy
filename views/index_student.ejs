@@ -374,14 +374,12 @@
 									<span class="slider round"></span>
 								</label>
 								<p id="record-status" style="margin-left: 10px;margin-top:5px;">Lecture Recording</p>
-								<p style="margin-left: 750px ;margin-top:5px;">You are logged in: <label id="classID">MTE 100</label></p>
+								<p style="margin-left: 750px;margin-top:5px;">You are logged in: <label id="classID"><%= courseName %></label>(<label id="sessionID"><%= sessionID %></label>)</p>
 							</div>
 
-
 							<div class="row">
-
-									<form action = "/submitForm" method="post"></form>
-										<button type="submit" name="speedUp" value="speedUp" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+									<form action = "/post-action" method="post"></form>
+										<button id="faster-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
 											<div class="card-box noradius noborder bg-success">
 												<h6 class="text-white text-uppercase m-b-20">Speed Up</h6>
 												<i class="fa fa-forward float-center text-white"></i>
@@ -389,27 +387,32 @@
 										</button>
 									</form>
 
-									<button class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-										<div class="card-box noradius noborder bg-warning">
-											<h6 class="text-white text-uppercase m-b-20">Slow Down</h6>
-											<i class="fa fa-play float-center text-white"></i>
-										</div>
-									</button>
-
-									<button class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-											<div class="card-box noradius noborder bg-danger">
-													<h6 class="text-white text-uppercase m-b-20">Louder</h6>
-													<i class="fa fa-volume-up float-center text-white"></i>
-													
+									<form action = "/post-action" method="post"></form>
+										<button id="slower-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+											<div class="card-box noradius noborder bg-warning">
+												<h6 class="text-white text-uppercase m-b-20">Slow Down</h6>
+												<i class="fa fa-play float-center text-white"></i>
 											</div>
-									</button>
+										</button>
+									</form>
 
-									<button class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-											<div class="card-box noradius noborder bg-default">
-													<h6 class="text-white text-uppercase m-b-20">Quieter</h6>
-													<i class="fa fa-volume-down float-center text-white"></i>
-											</div>
-									</button>
+									<form action = "/post-action" method="post"></form>
+										<button id="louder-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+												<div class="card-box noradius noborder bg-danger">
+														<h6 class="text-white text-uppercase m-b-20">Louder</h6>
+														<i class="fa fa-volume-up float-center text-white"></i>	
+												</div>
+										</button>
+									</form>
+
+									<form action = "/post-action" method="post"></form>
+										<button class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+												<div id="quieter-btn" class="card-box noradius noborder bg-default">
+														<h6 class="text-white text-uppercase m-b-20">Quieter</h6>
+														<i class="fa fa-volume-down float-center text-white"></i>
+												</div>
+										</button>
+									</form>
 							</div>
 							<!-- end row -->
 
