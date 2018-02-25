@@ -29,6 +29,20 @@ main.app.get('/dashboard-student', function(req, res){
 });
 
 
+main.app.post('/dashboard-prof', function(req, res){
+    var sessionID = req.body.sessionID;
+    var className = req.body.idClass;
+    db.refreshDashProf(sessionID, className, res);
+});
+
+// Refresh student dashboard
+main.app.post('/dashboard-student', function(req, res){
+    var sessionID = req.body.sessionID;
+    var className = req.body.idClass;
+    db.refreshDashStudent(sessionID, className, res);
+});
+
+
 // Update action in db (called when user clicks an action button)
 main.app.post('/post-action', function(req, res){
     var action = req.body.action;

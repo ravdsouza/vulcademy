@@ -32,4 +32,24 @@ $(document).ready(function() {
             }
         });
     });
+
+    $("#refresh-btn").on('click', function(){
+        var className = $("#classID").val();
+        var sessionID = $("#sessionID").val();
+        $.ajax({
+            method: "POST",
+            url: "/dashboard-prof/",
+            data: {
+                idClass: className,
+                sessionID: sessionID
+            },
+            success: function(data){
+                console.log("Successfully refreshed prof dashboard")
+            },
+            error: function(){
+                console.log("Error on refreshing prof dashboard");
+            }
+        });
+    });
+    
 });
