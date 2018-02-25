@@ -23,6 +23,8 @@
 		<!-- BEGIN CSS for this page -->
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
 		<!-- END CSS for this page -->
+		<!-- <link rel="stylesheet" type="text/css" href="src/css/dash-prof.css"/> -->
+
 		<link rel="stylesheet" type="text/css" href="src/css/dash-prof.css"/>
 		
 </head>
@@ -42,7 +44,11 @@
         <nav class="navbar-custom">
 
                     <ul class="list-inline float-right mb-0">
-						
+						<li class="list-inline-item dropdown notif">
+							<a id="refresh-btn" href="#" role="button" class="text-white">
+								<i class="fa fa-fw fa-refresh"></i>
+							</a>
+						</li>
 						<li class="list-inline-item dropdown notif">
                             <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <i class="fa fa-fw fa-question-circle"></i>
@@ -297,197 +303,168 @@
 
 
     <div class="content-page">
-	
 		<!-- Start content -->
         <div class="content">
-            
 			<div class="container-fluid">
-					
-						<div class="row">
-									<div class="col-xl-12">
-											<div class="breadcrumb-holder">
-													<h1 class="main-title float-left">Dashboard</h1>
-													<ol class="breadcrumb float-right">
-														<li class="breadcrumb-item">Home</li>
-														<li class="breadcrumb-item active">Dashboard</li>
-													</ol>
-													<div class="clearfix"></div>
-											</div>
-									</div>
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							<h1 class="main-title float-left">Dashboard</h1>
+							<ol class="breadcrumb float-right">
+								<li class="breadcrumb-item">Home</li>
+								<li class="breadcrumb-item active">Dashboard</li>
+							</ol>
+							<div class="clearfix"></div>
 						</div>
-						<!-- end row -->
-						
-							<div class="row">
-								<label id="switch-toggle" class="switch">
-									<input id="switch" type="checkbox" class='disabled'>
-									<span class="slider round"></span>
-								</label>
-								<p id="record-status" style="margin-left: 10px;margin-top:5px;">Lecture Recording</p>
-								<p style="margin-left: 750px;margin-top:5px;">You are logged in: <label id="classID"><%= courseName %></label>(<label id="sessionID"><%= sessionID %></label>)</p>
+					</div>
+				</div>
+				<!-- end row -->
+				<div class="row">
+					<label id="switch-toggle" class="switch">
+						<input id="switch" type="checkbox" class='disabled'>
+						<span class="slider round"></span>
+					</label>
+					<p id="record-status" style="margin-left: 10px;margin-top:5px;">Lecture Recording</p>
+					<p style="margin-left: 475px;margin-top:5px;">You are logged in: <label id="classID"><%= courseName %></label>(<label id="sessionID"><%= sessionID %></label>)</p>
+				</div>
+				<div class="row">
+					<!-- <form action = "/post-action" method="post"> -->
+					<button id="faster-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+						<div class="card-box noradius noborder bg-success">
+							<h6 class="text-white text-uppercase m-b-20">Speed Up</h6>
+							<i class="fa fa-forward float-center text-white"></i>
+						</div>
+					</button>
+					<!-- </form> -->
+					<!-- <form action = "/post-action" method="post"></form> -->
+					<button id="slower-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+						<div class="card-box noradius noborder bg-warning">
+							<h6 class="text-white text-uppercase m-b-20">Slow Down</h6>
+							<i class="fa fa-play float-center text-white"></i>
+						</div>
+					</button>
+					<!-- <form action = "/post-action" method="post"></form> -->
+					<button id="louder-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+							<div class="card-box noradius noborder bg-danger">
+								<h6 class="text-white text-uppercase m-b-20">Louder</h6>
+								<i class="fa fa-volume-up float-center text-white"></i>	
 							</div>
-
-							<div class="row">
-									<form action = "/post-action" method="post"></form>
-										<button id="faster-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-											<div class="card-box noradius noborder bg-success">
-												<h6 class="text-white text-uppercase m-b-20">Speed Up</h6>
-												<i class="fa fa-forward float-center text-white"></i>
-											</div>
-										</button>
-									</form>
-
-									<form action = "/post-action" method="post"></form>
-										<button id="slower-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-											<div class="card-box noradius noborder bg-warning">
-												<h6 class="text-white text-uppercase m-b-20">Slow Down</h6>
-												<i class="fa fa-play float-center text-white"></i>
-											</div>
-										</button>
-									</form>
-
-									<form action = "/post-action" method="post"></form>
-										<button id="louder-btn" class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-												<div class="card-box noradius noborder bg-danger">
-														<h6 class="text-white text-uppercase m-b-20">Louder</h6>
-														<i class="fa fa-volume-up float-center text-white"></i>	
-												</div>
-										</button>
-									</form>
-
-									<form action = "/post-action" method="post"></form>
-										<button class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-												<div id="quieter-btn" class="card-box noradius noborder bg-default">
-														<h6 class="text-white text-uppercase m-b-20">Quieter</h6>
-														<i class="fa fa-volume-down float-center text-white"></i>
-												</div>
-										</button>
-									</form>
+					</button>
+					<!-- <form action = "/post-action" method="post"></form> -->
+					<button class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+							<div id="quieter-btn" class="card-box noradius noborder bg-default">
+								<h6 class="text-white text-uppercase m-b-20">Quieter</h6>
+								<i class="fa fa-volume-down float-center text-white"></i>
 							</div>
-							<!-- end row -->
+					</button>
+				</div>
+				<!-- end row -->
 
-							<!-- star rating -->
-							<h5>At the end of the lecture, please provide a rating depending on content and delivery: </h5>
-							
-							<div class="rating">
-								<span><input class="fa fa-star" type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
-								<span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
-								<span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
-								<span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
-								<span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
-							</div>
-							<!-- end star rating -->
-
-							<br/> <br/> <br/>
-
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">		
-									<div class="card mb-3">
-											<div class="card-header">
-												<h3><i class="fa fa-envelope-o"></i> Create a new message</h3>
-												<br>Send a message to the professor, select to be anonymous or visible to your class.
-											</div>
-
-											<div class="card-body">
-													<form action="#" data-parsley-validate novalidate>
-															<div class="form-group">
-																<label for="userName">Name<span class="text-danger">*</span></label>
-																<input type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter Name" class="form-control" id="userName">
-															</div>                                               
-															<div class="form-group">
-																<label>Message</label>
-																<div>
-																	<textarea required class="form-control" required placeholder="Enter message" ></textarea>
-																</div>
-															</div>
-															<div class="form-group">
-																<div class="checkbox">
-																	<input id="remember-1" type="checkbox">
-																	<label for="remember-1"> Anonymous </label>
-																</div>
-															</div>
-		
-															<div class="form-group text-right m-b-0">
-																<button id="submit-btn" class="btn btn-primary" type="submit">
-																	Submit
-																</button>
-															</div>		
-												</form>
-													
-										</div>														
-									</div><!-- end card-->					
-								</div>
-
-
-												
-										<div class="widget-messages nicescroll" style="height: 400px;">
-												<a href="#">
-													<div class="message-item">
-														<div class="message-user-img"><img src="assets/images/avatars/avatar10.png" class="avatar-circle" alt=""></div>
-														<p class="message-item-user">Allyson Giannikouris</p>
-														<p class="message-item-msg">Will these slides be on Learn?</p>
-														<p class="message-item-date">14:25 PM</p>
-													</div>
-												</a>
-												<a href="#">
-													<div class="message-item">
-														<div class="message-user-img"><img src="assets/images/avatars/avatar5.png" class="avatar-circle" alt=""></div>
-														<p class="message-item-user">Feridun Hamdullahpur</p>
-														<p class="message-item-msg">Will this lecture be on the midterm?</p>
-														<p class="message-item-date">13:20 PM</p>
-													</div>
-												</a>
-												<a href="#">
-													<div class="message-item">
-														<div class="message-user-img"><img src="assets/images/avatars/avatar2.png" class="avatar-circle" alt=""></div>
-														<p class="message-item-user">Carla Daniels</p>
-														<p class="message-item-msg">Can you explain how a BST works?</p>
-														<p class="message-item-date">11:20 PM</p>
-													</div>
-												</a>
-											</div>
-										
-											
-											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">		
-												<div class="card mb-3">
-														<div class="card-header">
-															<h3><i class="fa fa-poll-o"></i>Class poll</h3>
-															<br>Share your opinion in a class poll
-														</div>
-			
-														<div class="card-body">
-															<div id="poll">
-																
-															</div>
-															
-																
-													</div>														
-												</div><!-- end card-->					
-											</div>
-			
-
-
+				<!-- star rating -->
+				<h5>At the end of the lecture, please provide a rating depending on content and delivery: </h5>
+				<div class="rating">
+					<span><input class="fa fa-star" type="radio" name="rating" id="str5" value="5"><label class="fa fa-star" for="str5"></label></span>
+					<span><input class="fa fa-star" type="radio" name="rating" id="str4" value="4"><label class="fa fa-star" for="str4"></label></span>
+					<span><input class="fa fa-star" type="radio" name="rating" id="str3" value="3"><label class="fa fa-star" for="str3"></label></span>
+					<span><input class="fa fa-star" type="radio" name="rating" id="str2" value="2"><label class="fa fa-star" for="str2"></label></span>
+					<span><input class="fa fa-star" type="radio" name="rating" id="str1" value="1"><label class="fa fa-star" for="str1"></label></span>
+				</div>
+				<!-- end star rating -->
+				<br/> <br/> <br/>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">		
+					<div class="card mb-3">
+						<div class="card-header">
+							<h3><i class="fa fa-envelope-o"></i> Create a new message</h3>
+							<br>Send a message to the professor, select to be anonymous or visible to your class.
+						</div>
+						<div class="card-body">
+							<form action="#" data-parsley-validate novalidate>
+								<div class="form-group">
+									<label for="userName">Name<span class="text-danger">*</span></label>
+									<input type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter Name" class="form-control" id="userName">
+								</div>                                               
+								<div class="form-group">
+									<label>Message</label>
+									<div>
+										<textarea required class="form-control" required placeholder="Enter message" ></textarea>
 									</div>
-									<div class="card-footer small text-muted">Updated today at 11:59 PM</div>
-								</div><!-- end card-->					
+								</div>
+								<div class="form-group">
+									<div class="checkbox">
+										<input id="remember-1" type="checkbox">
+										<label for="remember-1"> Anonymous </label>
+									</div>
+								</div>
+								<div class="form-group text-right m-b-0">
+									<button class="btn btn-primary" type="submit">
+										Submit
+									</button>
+									<button type="reset" class="btn btn-secondary m-l-5">
+										Cancel
+									</button>
+								</div>
+							</form>
+						</div>														
+					</div><!-- end card-->					
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">		
+						<div class="card mb-3">
+							<div class="card-header">
+								<h3><i class="fa fa-poll-o"></i>Class poll</h3>
+								<br>Share your opinion in a class poll
 							</div>
-							<!-- end row -->
-            </div>
-			<!-- END container-fluid -->
-
-		</div>
-		<!-- END content -->
-
-    </div>
-	<!-- END content-page -->
-    
+							<div class="card-body">
+								<div id="poll">
+									<div class="card-body">
+										<div class="button-list">
+											<div class="row">
+												<a id="A-student" role="button" href="#" class="btn btn-primary">A</a>
+												<label style="margin-top:15px;" id="A">Option A</label>
+											</div>
+											<div class="row">
+												<a id="B-student" role="button" href="#" class="btn btn-danger">B</a>
+												<label style="margin-top:15px;" id="B">Option B</label>
+											</div>
+											<div class="row">
+												<a id="C-student" role="button" href="#" class="btn btn-info">C</a>
+												<label style="margin-top:15px;" id="C">Option C</label>
+											</div>
+											<div class="row">
+												<a id="D-student" role="button" href="#" class="btn btn-success">D</a>
+												<label style="margin-top:15px;" id="D">Option D</label>
+											</div>
+										</div>
+									</div>	
+								</div>
+							</div>														
+						</div><!-- end card-->					
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">		
+							<div class="card mb-3">
+								<div class="card-header">
+									<h3><i class="fa fa-poll-o"></i>Recordings</h3>
+									<br>Your recordings will be saved here
+								</div>
+								<div class="card-body">
+									<!-- List item to store the recording files so they can be played in the browser -->
+									<ul id="recordingslist"></ul>
+								</div>														
+							</div><!-- end card-->					
+						</div>
+				</div>
+			</div><!-- END container-fluid -->
+			<div class="card-footer small text-muted">Updated today at 11:59 PM</div>
+		</div><!-- END content -->					
+	</div> <!--End of content-page  -->
 	<footer class="footer">
 		<span class="text-right">
-		Copyright <a target="_blank" href="#">Your Website</a>
+		Copyright <a target="_blank" href="#">Vulcademy</a>
 		</span>
 		<span class="float-right">
-		Powered by <a target="_blank" href="https://www.pikeadmin.com"><b>Pike Admin</b></a>
+		Powered by <a target="_blank" href="https://github.com/ravdsouza/vulcademy"><b>Vulcademy</b></a>
 		</span>
 	</footer>
-
 </div>
 <!-- END main -->
 
@@ -498,9 +475,6 @@
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 
-<!-- iclicker import file for js editing -->
-<script src="/iclicker.js"></script>
-
 <script src="assets/js/detect.js"></script>
 <script src="assets/js/fastclick.js"></script>
 <script src="assets/js/jquery.blockUI.js"></script>
@@ -510,8 +484,9 @@
 
 <!-- App js -->
 <script src="assets/js/pikeadmin.js"></script>
+<!-- iclicker import file for js editing -->
 
-<!-- BEGIN Java Script for this page -->
+<!-- BEGIN JavaScript for this page -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
@@ -520,6 +495,10 @@
 	<!-- Counter-Up-->
 	<script src="assets/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
 	<script src="assets/plugins/counterup/jquery.counterup.min.js"></script>			
+
+	<script src="src/js/record.js"></script>
+	<script src="src/js/iclicker.js"></script>
+	<script src="src/js/dash-student.js"></script>
 
 	<script>
 	$(document).ready(function(){
@@ -539,16 +518,30 @@
 	$(document).ready(function(){
 		// Check Radio-box
 		$(".rating input:radio").attr("checked", false);
-
 		$('.rating input').click(function () {
 			$(".rating span").removeClass('checked');
 			$(this).parent().addClass('checked');
 		});
-
 		$('input:radio').change(
 		function(){
 			var userRating = this.value;
-			alert(userRating);
+			var sessionID = $("#sessionID");
+			// alert(userRating);
+			$.ajax({
+				method: "POST",
+				url: "/post-rating",
+				data: {
+					rating: userRating,
+					sessionID: sessionID
+				},
+				processData: false,
+				success: function(data){
+					console.log("Successfully updated action to DB")
+				},
+				error: function(){
+					console.log("Error updating action to DB");
+				}
+			});
 		}); 
 	});
 	</script>

@@ -15,7 +15,7 @@ $(document).ready(function() {
         }
         console.log("Hello World");
         // Get class id
-        var classID = $("#classID").val();
+        var classID = $("#classID").text();
         console.log("classID(client): ", classID);
         $.ajax({
             method: "POST",
@@ -34,8 +34,8 @@ $(document).ready(function() {
     });
 
     $("#refresh-btn").on('click', function(){
-        var className = $("#classID").val();
-        var sessionID = $("#sessionID").val();
+        var className = $("#classID").text();
+        var sessionID = $("#sessionID").text();
         $.ajax({
             method: "POST",
             url: "/dashboard-prof/",
