@@ -11,16 +11,16 @@ main.app.set('view engine', 'ejs');
 
 // At root route render index.html
 main.app.get('/', function(req, res){
-  res.sendFile(main.path.join(__dirname, 'public/index_prof.html'));
+    db.refreshDashProf(res);
 });
 
 main.app.get('/record', function(req, res){
     res.render('record');
 });
 
-main.app.get('/update-dashboard-prof', function(req, res){ // Change to post
-    db.refreshDashProf(res);
-}); 
+// main.app.get('/update-dashboard-prof', function(req, res){ // Change to post
+//     db.refreshDashProf(res);
+// }); 
 
 // Update action in db (called when user clicks an action button)
 main.app.post('/post-action', function(req, res){

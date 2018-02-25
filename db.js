@@ -30,7 +30,7 @@ var classSchema = new Schema({
     starRating: {type: Number, enum: [1, 2, 3, 4, 5]},
     messages: [],
     bufferTime: {type: Number, enum: [1, 5, 10, 60]},
-    recording: Boolean
+    recording: {type: Number, enum: [0, 1] }
 });
 
 // Store list of classes with latest session ID
@@ -38,7 +38,7 @@ var classListSchema = new Schema({
     className: String,
     classID: String,
     latestClassSessionID: String,
-    record: Boolean
+    record: {type: Number, enum: [0, 1] }
 });
 
 // Store messages
@@ -71,7 +71,7 @@ exports.createSession = function(name, idClass, res){
         starRating: 0,
         messages: [],
         bufferTime: 60,
-        recording: false
+        recording: 0
     }, function (err, result) {
         if (err){
             response = {
@@ -92,14 +92,13 @@ exports.createSession = function(name, idClass, res){
 }
 
 exports.createClass = function(name, res){ // classListModel
-    // Generate classID (remove spaces from class name)
-    var idClass = ''; //
+    var idClass = name.replace(/\s/g, '');
     var response;
     classListModel.create({ 
         className: name,
         classID: idClass,
         latestClassSessionID: null,
-        record: false
+        record: 0
     }, function (err, result) {
         if (err){
             response = {
@@ -110,7 +109,7 @@ exports.createClass = function(name, res){ // classListModel
             response = {
                 'error':0,
                 'Message': {
-                    'message': result,
+                    'message': "Successfully created class",
                     'ID': idClass
                 }
             }
@@ -195,13 +194,13 @@ exports.refreshDashProf = function(res){
 }
 
 exports.updateRecordStatus = function(newStatus, classID, res){
-    if (newStatus === 'false'){ newStatus = false; } 
-    else{ newStatus = true; }
+    if (newStatus === 'false'){ newStatus = 0; } 
+    else{ newStatus = 1; }
     console.log(newStatus);
-    classListModel.update({ classID: "classID" }, {$set: { record: true }}, { upsert: true }, function(err, result){
-        console.log("ERR", err);
-        console.log("Result: ", result);
-    });
+    // Class
+    classListModel.update({ classID: classID }, {$set: { record: newStatus }}, { upsert: true });
+    // Session
+    classModel.update({ classID: classID }, {$set: { recording: newStatus }}, { upsert: true });
     var response = {
         'error': 0,
         'Message': 'Successfully updated record status'
