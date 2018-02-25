@@ -41,7 +41,7 @@ main.app.get('/get-message/:message/:name/:avatar/:sessionID', function(req, res
     var avatar = req.params.avatar;
     var name = req.params.name;
     var message = req.params.message;
-    console.log(req.params);
+    console.log("Params: ", req.params);
     db.addMsgs(message, name, avatar, sessionID, res);
 });
 
