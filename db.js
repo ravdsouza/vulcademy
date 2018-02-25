@@ -301,19 +301,6 @@ exports.refreshDashProf = function(sessionID, className, res){
                             avatar: message.avatar
                         });
                     });
-                    // console.log('---------- FIRST ----------');
-                    // console.log(result.slowDownCount);
-                    // console.log(slowPercent);
-                    // console.log(result.speedUpCount);
-                    // console.log(fastPercent);
-                    // console.log(result.louderCount);
-                    // console.log(louderPercent);
-                    // console.log(result.quieterCount);
-                    // console.log(quietPercent);
-                    // console.log(messages);
-                    // console.log(main.getCurrentTime());
-                    // console.log(className);
-                    // console.log(sessionID);
                     res.status(200).render('index_prof', {
                         slowDownCount: result.slowDownCount,
                         slowDownPercent: slowPercent, 
@@ -331,20 +318,35 @@ exports.refreshDashProf = function(sessionID, className, res){
                 } else {
                     // console.log('---------- SECOND ----------');
                     res.status(200).render('index_prof', {
-                        slowDownCount: 0,
-                        slowDownPercent: 0, 
-                        speedUpCount: 0,
-                        speedUpPercent: 0,
-                        louderCount: 0,
-                        louderPercent: 0,
-                        quieterCount: 0,
-                        quieterPercent: 0,
+                        slowDownCount: result.slowDownCount,
+                        slowDownPercent: slowPercent, 
+                        speedUpCount: result.speedUpCount,
+                        speedUpPercent: fastPercent,
+                        louderCount: result.louderCount,
+                        louderPercent: louderPercent,
+                        quieterCount: result.quieterCount,
+                        quieterPercent: quietPercent,
                         messages: [],
                         updatedTime: main.getCurrentTime(),
                         courseName: className,
                         sessionID: sessionID
                     });
                 }
+            });
+        } else {
+            res.status(200).render('index_prof', {
+                slowDownCount: 0,
+                slowDownPercent: 0, 
+                speedUpCount: 0,
+                speedUpPercent: 0,
+                louderCount: 0,
+                louderPercent: 0,
+                quieterCount: 0,
+                quieterPercent: 0,
+                messages: [],
+                updatedTime: main.getCurrentTime(),
+                courseName: className,
+                sessionID: sessionID
             });
         }
     });
