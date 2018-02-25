@@ -428,38 +428,38 @@
 									<div class="card mb-3">
 											<div class="card-header">
 												<h3><i class="fa fa-envelope-o"></i> Create a new message</h3>
-												Send a message to the professor, select to be anonymous or visible to your class.
+												<br>Send a message to the professor, select to be anonymous or visible to your class.
 											</div>
 
 											<div class="card-body">
 													<form action="#" data-parsley-validate novalidate>
-																<div class="form-group">
-																	<label for="userName">Name<span class="text-danger">*</span></label>
-																	<input type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter Name" class="form-control" id="userName">
-																</div>                                               
-																<div class="form-group">
-																	<label>Message</label>
-																	<div>
-																		<textarea required class="form-control" required placeholder="Enter message" ></textarea>
-																	</div>
+															<div class="form-group">
+																<label for="userName">Name<span class="text-danger">*</span></label>
+																<input type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter Name" class="form-control" id="userName">
+															</div>                                               
+															<div class="form-group">
+																<label>Message</label>
+																<div>
+																	<textarea required class="form-control" required placeholder="Enter message" ></textarea>
 																</div>
-																<div class="form-group">
-																	<div class="checkbox">
-																		<input id="remember-1" type="checkbox">
-																		<label for="remember-1"> Anonymous </label>
-																	</div>
+															</div>
+															<div class="form-group">
+																<div class="checkbox">
+																	<input id="remember-1" type="checkbox">
+																	<label for="remember-1"> Anonymous </label>
 																</div>
-			
-																<div class="form-group text-right m-b-0">
-																	<button class="btn btn-primary" type="submit">
-																		Submit
-																	</button>
-																	<button type="reset" class="btn btn-secondary m-l-5">
-																		Cancel
-																	</button>
-																</div>
-			
-													</form>
+															</div>
+		
+															<div class="form-group text-right m-b-0">
+																<button class="btn btn-primary" type="submit">
+																	Submit
+																</button>
+																<button type="reset" class="btn btn-secondary m-l-5">
+																	Cancel
+																</button>
+															</div>
+		
+												</form>
 													
 										</div>														
 									</div><!-- end card-->					
@@ -494,6 +494,26 @@
 												</a>
 											</div>
 										
+											
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">		
+												<div class="card mb-3">
+														<div class="card-header">
+															<h3><i class="fa fa-poll-o"></i>Class poll</h3>
+															<br>Share your opinion in a class poll
+														</div>
+			
+														<div class="card-body">
+															<div id="poll">
+																
+															</div>
+															
+																
+													</div>														
+												</div><!-- end card-->					
+											</div>
+			
+
+
 									</div>
 									<div class="card-footer small text-muted">Updated today at 11:59 PM</div>
 								</div><!-- end card-->					
@@ -526,6 +546,9 @@
 		
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
+
+<!-- iclicker import file for js editing -->
+<script src="/iclicker.js"></script>
 
 <script src="assets/js/detect.js"></script>
 <script src="assets/js/fastclick.js"></script>

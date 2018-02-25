@@ -13,11 +13,21 @@ for (i = 0; i < question.length(); i++)
 {
     document.getElementById("poll-q").innerHTML(question[i]);
     
-    var formText = "";
+    var formText = "<form>" + options1[i] + `
+    <input type="radio" name="vote" value="0" onclick="getVote(this.value)">
+    <br> ` + options2[i] + `<input type="radio" 
+    name="vote" value="1" onclick="getVote(this.value)">`;
 
-    document.getElementById("poll-op").innerHTML(`
-        <form` 
-            + options1[0] + 
-        `</form>
-   `)
+    if (string(options3[i]) != "")
+    {
+        formText += `<br> ` + options3[i] + `<input type="radio" 
+        name="vote" value="2" onclick="getVote(this.value)">`;
+    }
+    if (string(options4[i]) != "")
+    {
+        formText += `<br> ` + options4[i] + `<input type="radio" 
+        name="vote" value="3" onclick="getVote(this.value)">`;
+    }
+
+    poll.innerHTML(formText + "</form>");
 }
