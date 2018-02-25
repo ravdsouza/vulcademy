@@ -20,6 +20,7 @@ $(document).ready(function() {
         });
     });
 
+    // ***** ACTION ***** //
     document.getElementById("faster-btn").addEventListener("click", function(){
         console.log("Clicked faster-btn button");
         var sessionID = $("#sessionID").text();
@@ -84,6 +85,21 @@ $(document).ready(function() {
         });
     });
 
+    // ***** MESSAGES ***** //
+    document.getElementById("submit-btn").addEventListener("click", function(){
+        console.log("Clicked faster-btn button");
+        var sessionID = $("#sessionID").text();
+        $.ajax({
+            method: "GET",
+            url: "/get-action/speedUp/" + sessionID,
+            success: function(data){
+                console.log("Successfully updated action to DB")
+            },
+            error: function(){
+                console.log("Error updating action to DB");
+            }
+        });
+    });
 
 
     // $("#faster-btn").on('click', function(){
