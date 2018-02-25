@@ -22,7 +22,7 @@ main.app.get('/dashboard-prof', function(req, res){
 
 // Refresh student dashboard
 main.app.get('/dashboard-student', function(req, res){
-    var sessionID = 'zbueypabzq';
+    var sessionID = main.sessionIDLast;
     db.refreshDashStudent(sessionID, res);
 });
 
