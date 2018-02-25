@@ -56,9 +56,10 @@ var classModel = mongoose.model('ClassModel', classSchema);
 var classListModel = mongoose.model('ClassListModel', classListSchema);
 var messagesModel = mongoose.model('MessagesModel', messagesSchema);
 
+
 exports.createSession = function(name, idClass, res){
     // Generate random ID string
-    var id = ''; //
+    var id = String(Math.random().toString(36).substring(2));
     var response;
     classModel.create({
         className: name,
@@ -82,7 +83,7 @@ exports.createSession = function(name, idClass, res){
             response = {
                 'error':0,
                 'Message': {
-                    'message': result,
+                    'message': "Successfully created session",
                     'ID': id
                 }
             }
@@ -91,7 +92,7 @@ exports.createSession = function(name, idClass, res){
     });
 }
 
-exports.createClass = function(name, res){ // classListModel
+exports.createClass = function(name, user, res){ // classListModel
     var idClass = name.replace(/\s/g, '');
     var response;
     classListModel.create({ 
@@ -114,7 +115,11 @@ exports.createClass = function(name, res){ // classListModel
                 }
             }
         }
-        res.status(200).send(response);
+        var render;
+        if (user === 'prof'){ render = 'index_prof'; }
+        else { render = 'index_student'; }
+        res.status(200).render(render);
+        // res.status(200).render(render, { class: name });
     });
 }
 
@@ -164,39 +169,118 @@ exports.addMessage = function(message, sessionID, sender, avatar, res){
     });
 }
 
-exports.refreshDashProf = function(res){
-    // Call db to get data
-    var slowDownCount = 5;
-    var speedUpCount = 6;
-    var louderCount = 8;
-    var quieterCount = 2;
-    var slowDownPercent = parseInt(slowDownCount/(slowDownCount + speedUpCount) * 100);
-    var speedUpPercent = parseInt(speedUpCount/(slowDownCount + speedUpCount) * 100);
-    var louderPercent = parseInt(louderCount/(louderCount + quieterCount) * 100);
-    var quieterPercent = parseInt(quieterCount/(quieterCount + louderCount) * 100);
-    var messages = [{name: "Allyson Giannikouris", text: "Will these slides be on Learn?", time: "14:25:30", avatar: '10'}, 
-    {name: "Feridun Hamdullahpur", text: "Will this lecture be on the midterm?", time: "13:55:33", avatar: '5'}, 
-    {name: "Carla Daniels", text: "Can you explain how a BST works?", time: "13:35:59", avatar: '6'}]
-    var time = main.getCurrentTime();
-    console.log("Time: ", time);
-    res.render('index_prof', {
-        slowDownCount: slowDownCount,
-        slowDownPercent: slowDownPercent, 
-        speedUpCount: speedUpCount,
-        speedUpPercent: speedUpPercent,
-        louderCount: louderCount,
-        louderPercent: louderPercent,
-        quieterCount: quieterCount,
-        quieterPercent: quieterPercent,
-        messages: messages,
-        updatedTime: time
+exports.refreshDashProf = function(sessionID, res){
+    var sessionID = "a29sgd07sj";
+    var courseName = "MTE 100";
+
+    classModel.findOne({ 'classSessionID': sessionID }, '', function (err, result) {
+        // Update results?
+        var response;
+        if (err){
+            response = {
+                'error': 1,
+                'Message': err
+            }
+            res.status(200).send(response);
+        } else{
+            response = {
+                'error':0,
+                'Message': result
+            }
+        }
+        messagesModel.find({ 'sessionID': sessionID }, '', function (err, results) {
+            if (err){
+                response = {
+                    'error': 1,
+                    'Message': err
+                }
+                res.status(200).send(response);
+            } else{
+                response = {
+                    'error':0,
+                    'Message': results
+                }
+            }
+            console.log(result.slowDownCount);
+            // Speed up, slow down, louder, quieter actions
+            var slowPercent, fastPercent, loudPercent, quietPercent;
+            if (result.slowDownCount === 0 && result.speedUpCount === 0){ 
+                slowPercent = 0;
+                fastPercent = 0;
+            }
+            else { 
+                slowPercent = parseInt(result.slowDownCount/(result.slowDownCount + result.speedUpCount) * 100);
+                fastPercent = parseInt(result.speedUpCount/(result.slowDownCount + result.speedUpCount) * 100);
+            }
+            if (result.louderCount === 0 && result.quieterCount === 0){ 
+                loudPercent = 0;
+                quietPercent = 0;
+            }
+            else { 
+                loudPercent = parseInt(result.louderCount/(result.louderCount + result.quieterCount) * 100);
+                quietPercent = parseInt(result.quieterCount/(result.louderCount + result.quieterCount) * 100);
+            }
+            // Messages
+            var messages = [];
+            results.forEach(function(message){
+                messages.splice(0, 0, {
+                    name: message.sender,
+                    text: message.message,
+                    time: message.time,
+                    avatar: message.avatar
+                });
+            });
+            console.log("Messages: ", results);
+            res.status(200).render('index_prof', {
+                slowDownCount: result.slowDownCount,
+                slowDownPercent: slowPercent, 
+                speedUpCount: result.speedUpCount,
+                speedUpPercent: fastPercent,
+                louderCount: result.louderCount,
+                louderPercent: loudPercent,
+                quieterCount: result.quieterCount,
+                quieterPercent: quietPercent,
+                messages: messages,
+                updatedTime: main.getCurrentTime(),
+                courseName: result.className,
+                sessionID: sessionID
+            });
+        });
     });
+
+    // // Call db to get data
+    // var slowDownCount = 5;
+    // var speedUpCount = 6;
+    // var louderCount = 8;
+    // var quieterCount = 2;
+    // var slowDownPercent = parseInt(slowDownCount/(slowDownCount + speedUpCount) * 100);
+    // var speedUpPercent = parseInt(speedUpCount/(slowDownCount + speedUpCount) * 100);
+    // var louderPercent = parseInt(louderCount/(louderCount + quieterCount) * 100);
+    // var quieterPercent = parseInt(quieterCount/(quieterCount + louderCount) * 100);
+    // var messages = [{name: "Allyson Giannikouris", text: "Will these slides be on Learn?", time: "14:25:30", avatar: '10'}, 
+    // {name: "Feridun Hamdullahpur", text: "Will this lecture be on the midterm?", time: "13:55:33", avatar: '5'}, 
+    // {name: "Carla Daniels", text: "Can you explain how a BST works?", time: "13:35:59", avatar: '6'}]
+    // var time = main.getCurrentTime();
+    // console.log("Time: ", time);
+    // res.status(200).render('index_prof', {
+    //     slowDownCount: slowDownCount,
+    //     slowDownPercent: slowDownPercent, 
+    //     speedUpCount: speedUpCount,
+    //     speedUpPercent: speedUpPercent,
+    //     louderCount: louderCount,
+    //     louderPercent: louderPercent,
+    //     quieterCount: quieterCount,
+    //     quieterPercent: quieterPercent,
+    //     messages: messages,
+    //     updatedTime: time,
+    //     courseName: courseName,
+    //     sessionID: sessionID
+    // });
 }
 
 exports.updateRecordStatus = function(newStatus, classID, res){
     if (newStatus === 'false'){ newStatus = 0; } 
     else{ newStatus = 1; }
-    console.log(newStatus);
     // Class
     classListModel.update({ classID: classID }, {$set: { record: newStatus }}, { upsert: true });
     // Session

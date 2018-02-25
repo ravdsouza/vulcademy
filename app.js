@@ -16,7 +16,8 @@ main.app.get('/', function(req, res){
 
 // Refress professor dashboard
 main.app.get('/dashboard-prof', function(req, res){
-    db.refreshDashProf(res);
+    var sessionID = 'zbueypabzq';
+    db.refreshDashProf(sessionID, res);
 });
 
 // Refresh student dashboard
@@ -42,7 +43,17 @@ main.app.post('/post-action', function(req, res){
 
 main.app.post('/post-create-class', function(req, res){
     var className = req.body.className;
-    db.createClass(className,res);
+    var user = req.body.user;
+    var idClass = className.replace(/\s/g, '');
+    if (user === 'prof'){
+        // db.createClass(className, user, res);
+        db.createSession(className, idClass, res);
+    } else{
+        res.status(200).send({
+            'error': 0,
+            'Message': "User is a student"
+        });
+    }
 });
 
 // Create a session id for a class (can only be done by professor)
