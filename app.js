@@ -17,12 +17,16 @@ main.app.get('/', function(req, res){
 // Refress professor dashboard
 main.app.get('/dashboard-prof', function(req, res){
     var sessionID = main.sessionIDLast;
+    console.log(sessionID);
+    console.log(main.sessionIDLast);
     db.refreshDashProf(sessionID, res);
 });
 
 // Refresh student dashboard
 main.app.get('/dashboard-student', function(req, res){
-    var sessionID = 'zbueypabzq';
+    console.log("Hello World");
+    var sessionID = main.sessionIDLast;
+    console.log("SessionID: ", sessionID);
     db.refreshDashStudent(sessionID, res);
 });
 
@@ -42,12 +46,18 @@ main.app.post('/post-create-class', function(req, res){
     var user = req.body.user;
     var idClass = className.replace(/\s/g, '');
     var sessionID = req.body.sessionID; // Only for student (else '')
+    console.log("User: ", user);
     if (user === 'prof'){
         // db.createClass(className, user, res);
         db.createSession(className, idClass, res);
     } else{
+        console.log("Student");
         main.sessionIDLast = sessionID;
-        db.refreshDashProf(sessionID, res);
+        res.status(200).render('index_student', {
+            sessionID: sessionID,
+            courseName: className
+        });
+        // db.refreshDashStudent(sessionID, res);
     }
 });
 
