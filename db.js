@@ -362,3 +362,30 @@ exports.refreshDashStudent = function(sessionID, className, res){
     });
 }
 
+exports.addMsgs = function(text, sender, avatar, sessionID, res){ // classModel
+    messagesModel.findOne({"sessionID": sessionID}, function(err, results){
+        console.log("Result: ", results);
+            messagesModel.create({
+                "sessionID": sessionID, 
+                "message": text, 
+                "sender": sender, 
+                "avatar": avatar 
+            }, function(err, result) {
+                if (err){
+                    response = {
+                        'error': 1,
+                        'Message': err
+                    }
+                } else{
+                    response = {
+                        'error':0,
+                        'Message': {
+                            'message': "Successfully created session",
+                            'ID': id
+                        }
+                    }
+                }
+                res.status(200).send(response);
+        });
+    });
+}
