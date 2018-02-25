@@ -269,8 +269,10 @@ exports.updateRecordStatus = function(newStatus, classID, res){
 }
 
 exports.refreshDashStudent = function(sessionID, res){
+    console.log(sessionID);
     classModel.findOne({ 'classSessionID': sessionID }, '', function (err, result) {
         // Update results?
+        console.log("Result(class): ", result);
         var response;
         if (err){
             response = {
