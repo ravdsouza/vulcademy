@@ -18,8 +18,14 @@ $(document).ready(function() {
                 sessionID: sessionID
             },
             success: function(data){
+                console.log("User if data: ", user);
                 console.log("Successfully created a class session");
-                location.pathname = "/dashboard-prof";
+                if (user === "prof"){
+                    location.pathname = "/dashboard-prof";
+                } else{
+                    location.pathname = "/dashboard-student";
+                }
+                
             },
             error: function(){
                 console.log("Error creating a class");
