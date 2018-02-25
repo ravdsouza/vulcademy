@@ -138,15 +138,44 @@ exports.createClass = function(name, user, res){ // classListModel
 }
 
 exports.addAction = function(action, sessionID, res){ // classModel
-    classModel.findOne({classSessionID: sessionID}, function(err, results){
+    classModel.findOne({"classSessionID": sessionID}, function(err, results){
+        console.log("Result: ", results);
         if (action === "speedUp"){
-            classModel.update({"classSessionID": sessionID},{$set: {"speedUpCount": (++ results.speedUpCount) }});
+            var newVar = results.speedUpCount + 1;
+            console.log(typeof newVar);
+            console.log(newVar);
+            classModel.update({"classSessionID": sessionID},{$set: {"speedUpCount": newVar }}, {"upsert": true},
+        function(err, result){
+            console.log("ERR: ", err);
+            console.log("Results: ", result)
+        });
         } else if (action === "slowDown"){
-            classModel.update({"classSessionID": sessionID},{$set: {"slowDownCount": (++ results.slowDownCount) }});
+            var newVar = results.slowDownCount + 1;
+            console.log(typeof newVar);
+            console.log(newVar);
+            classModel.update({"classSessionID": sessionID},{$set: {"slowDownCount": newVar }}, {"upsert": true},
+        function(err, result){
+            console.log("ERR: ", err);
+            console.log("Results: ", result)
+        });
         } else if (action === "louder"){
-            classModel.update({"classSessionID": sessionID},{$set: {"louderCount": (++ results.louderCount) }});
+            var newVar = results.louderCount + 1;
+            console.log(typeof newVar);
+            console.log(newVar);
+            classModel.update({"classSessionID": sessionID},{$set: {"louderCount": newVar }}, {"upsert": true},
+        function(err, result){
+            console.log("ERR: ", err);
+            console.log("Results: ", result)
+        });
         } else if(action === "quieter"){
-            classModel.update({"classSessionID": sessionID},{$set: {"quieterCount": (++ results.quieterCount) }});
+            var newVar = results.quieterCount + 1;
+            console.log(typeof newVar);
+            console.log(newVar);
+            classModel.update({"classSessionID": sessionID},{$set: {"quieterCount": newVar }}, {"upsert": true},
+        function(err, result){
+            console.log("ERR: ", err);
+            console.log("Results: ", result)
+        });
         }
         res.status(200).render('index_student',{
             //  EJS variables you need in student.ejs
@@ -210,6 +239,7 @@ exports.updateRecordStatus = function(newStatus, classID, res){
 }
 
 exports.refreshDashProf = function(sessionID, className, res){
+    console.log("SessionID: ", sessionID);
     classModel.findOne({ 'classSessionID': sessionID }, '', function (err, result) {
         var response;
         if (err){
@@ -224,79 +254,99 @@ exports.refreshDashProf = function(sessionID, className, res){
                 'Message': result
             }
         }
-        messagesModel.find({ 'sessionID': sessionID }, '', function (err, results) {
-            if (err){
-                response = {
-                    'error': 1,
-                    'Message': err
+        // console.log('Result: ', result);
+        // console.log('Err: ', err);
+        if (result !== undefined && result !== null){
+            messagesModel.find({ 'sessionID': sessionID }, '', function (err, results) {
+                if (err){
+                    response = {
+                        'error': 1,
+                        'Message': err
+                    }
+                    res.status(200).send(response);
+                } else{
+                    response = {
+                        'error':0,
+                        'Message': results
+                    }
                 }
-                res.status(200).send(response);
-            } else{
-                response = {
-                    'error':0,
-                    'Message': results
-                }
-            }
-            if (result !== null && result.length > 0){
-                // Speed up, slow down, louder, quieter actions
-                var slowPercent, fastPercent, loudPercent, quietPercent;
-                if (result.slowDownCount === 0 && result.speedUpCount === 0){ 
-                    slowPercent = 0;
-                    fastPercent = 0;
-                }
-                else { 
-                    slowPercent = parseInt(result.slowDownCount/(result.slowDownCount + result.speedUpCount) * 100);
-                    fastPercent = parseInt(result.speedUpCount/(result.slowDownCount + result.speedUpCount) * 100);
-                }
-                if (result.louderCount === 0 && result.quieterCount === 0){ 
-                    loudPercent = 0;
-                    quietPercent = 0;
-                }
-                else { 
-                    loudPercent = parseInt(result.louderCount/(result.louderCount + result.quieterCount) * 100);
-                    quietPercent = parseInt(result.quieterCount/(result.louderCount + result.quieterCount) * 100);
-                }
-                // Messages
-                var messages = [];
-                results.forEach(function(message){
-                    messages.splice(0, 0, {
-                        name: message.sender,
-                        text: message.message,
-                        time: message.time,
-                        avatar: message.avatar
+                // console.log('Results: ', results);
+                // console.log('Err: ', err);
+                if (result !== null && results.length > 0){
+                    // Speed up, slow down, louder, quieter actions
+                    var slowPercent, fastPercent, louderPercent, quietPercent;
+                    if (result.slowDownCount === 0 && result.speedUpCount === 0){ 
+                        slowPercent = 0;
+                        fastPercent = 0;
+                    }
+                    else { 
+                        slowPercent = parseInt(result.slowDownCount/(result.slowDownCount + result.speedUpCount) * 100);
+                        fastPercent = parseInt(result.speedUpCount/(result.slowDownCount + result.speedUpCount) * 100);
+                    }
+                    if (result.louderCount === 0 && result.quieterCount === 0){ 
+                        louderPercent = 0;
+                        quietPercent = 0;
+                    }
+                    else { 
+                        louderPercent = parseInt(result.louderCount/(result.louderCount + result.quieterCount) * 100);
+                        quietPercent = parseInt(result.quieterCount/(result.louderCount + result.quieterCount) * 100);
+                    }
+                    // Messages
+                    var messages = [];
+                    results.forEach(function(message){
+                        messages.splice(0, 0, {
+                            name: message.sender,
+                            text: message.message,
+                            time: message.time,
+                            avatar: message.avatar
+                        });
                     });
-                });
-                res.status(200).render('index_prof', {
-                    slowDownCount: result.slowDownCount,
-                    slowDownPercent: slowPercent, 
-                    speedUpCount: result.speedUpCount,
-                    speedUpPercent: fastPercent,
-                    louderCount: result.louderCount,
-                    louderPercent: loudPercent,
-                    quieterCount: result.quieterCount,
-                    quieterPercent: quietPercent,
-                    messages: messages,
-                    updatedTime: main.getCurrentTime(),
-                    courseName: className,
-                    sessionID: sessionID
-                });
-            } else {
-                res.status(200).render('index_prof', {
-                    slowDownCount: 0,
-                    slowDownPercent: 0, 
-                    speedUpCount: 0,
-                    speedUpPercent: 0,
-                    louderCount: 0,
-                    louderPercent: 0,
-                    quieterCount: 0,
-                    quieterPercent: 0,
-                    messages: [],
-                    updatedTime: main.getCurrentTime(),
-                    courseName: className,
-                    sessionID: sessionID
-                });
-            }
-        });
+                    // console.log('---------- FIRST ----------');
+                    // console.log(result.slowDownCount);
+                    // console.log(slowPercent);
+                    // console.log(result.speedUpCount);
+                    // console.log(fastPercent);
+                    // console.log(result.louderCount);
+                    // console.log(louderPercent);
+                    // console.log(result.quieterCount);
+                    // console.log(quietPercent);
+                    // console.log(messages);
+                    // console.log(main.getCurrentTime());
+                    // console.log(className);
+                    // console.log(sessionID);
+                    res.status(200).render('index_prof', {
+                        slowDownCount: result.slowDownCount,
+                        slowDownPercent: slowPercent, 
+                        speedUpCount: result.speedUpCount,
+                        speedUpPercent: fastPercent,
+                        louderCount: result.louderCount,
+                        louderPercent: louderPercent,
+                        quieterCount: result.quieterCount,
+                        quieterPercent: quietPercent,
+                        messages: messages,
+                        updatedTime: main.getCurrentTime(),
+                        courseName: className,
+                        sessionID: sessionID
+                    });
+                } else {
+                    // console.log('---------- SECOND ----------');
+                    res.status(200).render('index_prof', {
+                        slowDownCount: 0,
+                        slowDownPercent: 0, 
+                        speedUpCount: 0,
+                        speedUpPercent: 0,
+                        louderCount: 0,
+                        louderPercent: 0,
+                        quieterCount: 0,
+                        quieterPercent: 0,
+                        messages: [],
+                        updatedTime: main.getCurrentTime(),
+                        courseName: className,
+                        sessionID: sessionID
+                    });
+                }
+            });
+        }
     });
 }
 

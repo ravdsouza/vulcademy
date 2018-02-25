@@ -28,10 +28,19 @@ main.app.get('/dashboard-student', function(req, res){
     db.refreshDashStudent(sessionID, className, res);
 });
 
+main.app.get('/get-action/:action/:sessionID', function(req, res){
+    console.log(req.params);
+    var action = req.params.action;
+    var sessionID = req.params.sessionID;
+    console.log(sessionID);
+    db.addAction(action, sessionID, res);
+});
+
 
 main.app.post('/dashboard-prof', function(req, res){
     var sessionID = req.body.sessionID;
     var className = req.body.idClass;
+    console.log('-------sessionID: ', sessionID);
     db.refreshDashProf(sessionID, className, res);
 });
 
@@ -41,6 +50,18 @@ main.app.post('/dashboard-student', function(req, res){
     var className = req.body.idClass;
     db.refreshDashStudent(sessionID, className, res);
 });
+
+main.app.post("/post-rating", function(req, res){
+    var sessionID = req.body.sessionID;
+    var rating = req.body.rating;
+    console.log(rating);
+    res.status(200).send({
+        "error": 0,
+        "Message": "The rating is " + rating
+    })
+    // db.refreshDashStudent(sessionID, className, res);
+});
+
 
 
 // Update action in db (called when user clicks an action button)

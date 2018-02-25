@@ -489,11 +489,6 @@
 <!-- App js -->
 <script src="assets/js/pikeadmin.js"></script>
 <!-- iclicker import file for js editing -->
-<script src="src/js/record.js"></script>
-<script src="src/js/iclicker.js"></script>
-<script src="src/js/dash-student.js"></script>
-
-
 
 <!-- BEGIN Java Script for this page -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
@@ -504,6 +499,10 @@
 	<!-- Counter-Up-->
 	<script src="assets/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
 	<script src="assets/plugins/counterup/jquery.counterup.min.js"></script>			
+
+	<script src="src/js/record.js"></script>
+	<script src="src/js/iclicker.js"></script>
+	<script src="src/js/dash-student.js"></script>
 
 	<script>
 	$(document).ready(function(){
@@ -532,7 +531,23 @@
 		$('input:radio').change(
 		function(){
 			var userRating = this.value;
-			alert(userRating);
+			var sessionID = $("#sessionID");
+			// alert(userRating);
+			$.ajax({
+				method: "POST",
+				url: "/post-rating",
+				data: {
+					rating: userRating,
+					sessionID: sessionID
+				},
+				processData: false,
+				success: function(data){
+					console.log("Successfully updated action to DB")
+				},
+				error: function(){
+					console.log("Error updating action to DB");
+				}
+			});
 		}); 
 	});
 	</script>
