@@ -237,31 +237,6 @@
 							<a href="charts.html"><i class="fa fa-fw fa-area-chart"></i><span> Charts </span> </a>
 						</li>			
 						<li class="submenu">
-							<a href="#"><i class="fa fa-fw fa-tv"></i> <span> User Interface </span> <span class="menu-arrow"></span></a>
-								<ul class="list-unstyled">
-									<li><a href="ui-alerts.html">Alerts</a></li>
-									<li><a href="ui-buttons.html">Buttons</a></li>
-									<li><a href="ui-cards.html">Cards</a></li>
-									<li><a href="ui-carousel.html">Carousel</a></li>
-									<li><a href="ui-collapse.html">Collapse</a></li>
-									<li><a href="ui-icons.html">Icons</a></li>
-									<li><a href="ui-modals.html">Modals</a></li>
-									<li><a href="ui-tooltips.html">Tooltips and Popovers</a></li>
-								</ul>
-						</li>
-						<li class="submenu">
-							<a href="#"><i class="fa fa-fw fa-file-text-o"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
-								<ul class="list-unstyled">
-									<li><a href="forms-general.html">General Elements</a></li>
-									<li><a href="forms-select2.html">Select2</a></li>
-									<li><a href="forms-validation.html">Form Validation</a></li>
-									<li><a href="forms-text-editor.html">Text Editors</a></li>
-									<li><a href="forms-upload.html">Multiple File Upload</a></li>
-									<li><a href="forms-datetime-picker.html">Date and Time Picker</a></li>
-									<li><a href="forms-color-picker.html">Color Picker</a></li>
-								</ul>
-						</li>
-						<li class="submenu">
 							<a href="#"><i class="fa fa-fw fa-calendar"></i> <span> Calenders </span> <span class="menu-arrow"></span></a>
 								<ul class="list-unstyled">
 									<li><a href="#">Combined</a></li>
@@ -387,22 +362,22 @@
 								<br>
 								<br>
 
-								<div class="form-group" id="msg-name">
+								<div class="form-group">
 									<label for="avatar">Avatar number:<span class="text-danger">*</span></label>
 									<input type="text" name="" data-parsley-trigger="change" required placeholder="Enter avatar number" class="form-control" id="avatar">
 								</div>  
 
 								<div class="form-group" id="msg-name">
 									<label for="userName">Name<span class="text-danger">*</span></label>
-									<input type="text" data-parsley-trigger="change" required placeholder="Enter name" class="form-control" id="userName">
+									<input id="msg-name" type="text" name="nick" data-parsley-trigger="change" required placeholder="Enter name" class="form-control" id="userName">
 								</div>                                               
 								<div class="form-group">
 									<label>Message</label>
 									<div>
-										<input id="msg-msg" required class="form-control" required placeholder="Enter message" ></input>
+										<textarea id="msg-msg" required class="form-control" required placeholder="Enter message" ></textarea>
 									</div>
 								</div>
-								<div class="form-group" id="msg-anon">
+								<div class="form-group">
 									<div class="checkbox">
 										<input id="remember-1" type="checkbox">
 										<label for="remember-1"> Anonymous </label>
