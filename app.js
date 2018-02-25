@@ -24,9 +24,13 @@ main.app.get('/dashboard-prof', function(req, res){
 
 // Refresh student dashboard
 main.app.get('/dashboard-student', function(req, res){
+<<<<<<< HEAD
     console.log("Hello World");
     var sessionID = main.sessionIDLast;
     console.log("SessionID: ", sessionID);
+=======
+    var sessionID = main.sessionIDLast;
+>>>>>>> 20346acb5a1f360b487ee04f3b8c8adb896b98c4
     db.refreshDashStudent(sessionID, res);
 });
 
