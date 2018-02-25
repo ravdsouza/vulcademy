@@ -7,15 +7,19 @@ $(document).ready(function() {
         if (document.getElementById("prof").checked && !document.getElementById("student").checked){
             user = 'prof';
         }
+        var sessionID = ''; // Session ID
+        if (document.getElementById("student").checked){ sessionID = $("#sessionID").val(); }
         $.ajax({
             method: "POST",
             url: "/post-create-class",
             data: {
                 className: className,
-                user: user
+                user: user,
+                sessionID: sessionID
             },
             success: function(data){
-                console.log("Successfully created a class")
+                console.log("Successfully created a class session");
+                location.pathname = "/dashboard-prof";
             },
             error: function(){
                 console.log("Error creating a class");

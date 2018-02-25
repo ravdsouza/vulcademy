@@ -9,6 +9,8 @@ exports.express = express;
 exports.app = app;
 exports.path = path;
 exports.bodyParser = bodyParser;
+exports.sessionIDLast = "a29sgd07sj";
+
 
 exports.getCurrentTime = function(){
     var dateTime = new Date();
