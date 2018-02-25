@@ -26,9 +26,6 @@ main.app.get('/dashboard-student', function(req, res){
     db.refreshDashStudent(sessionID, res);
 });
 
-main.app.get('/record', function(req, res){
-    res.render('record');
-});
 
 // Update action in db (called when user clicks an action button)
 main.app.post('/post-action', function(req, res){

@@ -272,7 +272,7 @@ exports.refreshDashProf = function(sessionID, res){
 exports.refreshDashStudent = function(sessionID, res){
     classModel.findOne({ 'classSessionID': sessionID }, '', function (err, results) {
         var courseName = results.className;
-        res.status(200).render('student',{
+        res.status(200).render('index_student',{
             //  EJS variables you need in student.ejs
             courseName: results.className,
             sessionID: sessionID
